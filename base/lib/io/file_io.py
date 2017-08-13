@@ -1,11 +1,12 @@
 # Copyright 2017 The ChaosBase Authors. All Rights Reserved.
 
+#coding=utf-8
 from __future__ import absolute_import
 from __future__ import division
 
 import os
 import uuid
-from chaosdata.base import compat
+from base.util import compat
 
 class FileIO(object):
     """FileIO class that exposes methods to read / write to / from files.
@@ -48,7 +49,10 @@ def is_directory(dirname):
         Returns:
             True, if the path is a directory; False otherwise
     """
-    pass
+    """
+    TODO tensorflow use C++ ,python
+    """
+    return os.path.isdir(dirname)
 
 def list_directory(dirname):
     """Returns a list of entries contained within a directory.
@@ -63,8 +67,11 @@ def list_directory(dirname):
         Raises:
             errors.NotFoundError if directory doesn't exist
     """
-    pass
-
+    
+    """
+    TODO tensorflow use C++, python
+    """
+    return os.listdir(dirname)
 
 def walk(top, in_order=True):
     """Recursive directory tree generator for directories.
@@ -86,5 +93,24 @@ def walk(top, in_order=True):
         listing = list_directory(top)
     except :
         return
-
-
+    
+    files = []
+    subdirs = []
+    for item in listing:
+        full_path = os.path.join(top, item)
+        if is_directory(full_path):
+            subdirs.append(item)
+        else:
+            files.append(item)
+            
+    here = (top, subdirs, files)
+    
+    if in_order:
+        yield here
+    
+    for subdir in subdirs:
+        for subitem in walk(os.path.join(top, subdir), in_order):
+            yield subitem
+            
+    if not in_order:
+        yield here
