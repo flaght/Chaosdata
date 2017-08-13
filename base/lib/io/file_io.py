@@ -1,6 +1,6 @@
 # Copyright 2017 The ChaosBase Authors. All Rights Reserved.
-
 #coding=utf-8
+
 from __future__ import absolute_import
 from __future__ import division
 
@@ -28,14 +28,14 @@ class FileIO(object):
         self._writable = None
         if mode not in ("r", "w", "a", "r+", "w+", "a+"):
             print "mode is not 'r' or 'w' or 'a' or 'r+' or 'w+' or 'a+'"
-        
+
         self.__read_check_passed = mode in ("r", "r+", "a+", "w+")
         self.__write_check_passed = mode in ("a", "w", "r+", "a+", "w+")
 
         @property
         def name(self):
             return self.__name
-        
+
         @property
         def mode(self):
             return self.__mode
@@ -67,7 +67,7 @@ def list_directory(dirname):
         Raises:
             errors.NotFoundError if directory doesn't exist
     """
-    
+
     """
     TODO tensorflow use C++, python
     """
@@ -93,7 +93,7 @@ def walk(top, in_order=True):
         listing = list_directory(top)
     except :
         return
-    
+
     files = []
     subdirs = []
     for item in listing:
@@ -102,15 +102,15 @@ def walk(top, in_order=True):
             subdirs.append(item)
         else:
             files.append(item)
-            
+
     here = (top, subdirs, files)
-    
+
     if in_order:
         yield here
-    
+
     for subdir in subdirs:
         for subitem in walk(os.path.join(top, subdir), in_order):
             yield subitem
-            
+
     if not in_order:
         yield here
