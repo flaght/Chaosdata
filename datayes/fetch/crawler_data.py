@@ -37,7 +37,7 @@ def GetMktConFutdJY(secID,exchangeCD,start_time,end_time):
         url='/api/finFutu/getMktConFutdJY.json?FIELD=&secID='+secID+'&secIDSrc=&startDate='+ start_time+'&endDate='+end_time+'&beginTime=&endTime='
         code, result = client.getData(url)
         if code == 200:
-            file_name = "./data/"+exchangeCD+"/"+secID + "/" + start_time + "_" + end_time+".txt"
+            file_name = "/kywk/fin/futures/data/"+exchangeCD+"/"+secID + "/" + start_time + "_" + end_time+".txt"
             WriteFile(file_name,result)
         else:
             print code
@@ -107,7 +107,7 @@ if __name__ == "__main__":
     #CrawleDataYes('XDCE')
     #CrawleDataYes('XSGE')
     #CrawleOldDataYes('XDCE')
-    #CrawleOldDataYes('XDCE')  # 大连商品
+    CrawleOldDataYes('XDCE')  # 大连商品
     CrawleOldDataYes('XSGE')  # 上海期货
     CrawleOldDataYes('XZCE')  # 郑州商品
-    #CrawleOldDataYes('CCFX')  # 中国金融
+    CrawleOldDataYes('CCFX')  # 中国金融
