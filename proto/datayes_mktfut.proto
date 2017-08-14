@@ -1,20 +1,20 @@
 package chaosdata; message MKTFut {
-  required string sec_id = 1;
-  required string ticker = 2;
-  required string short_name = 3;
-  required string exchange_id = 4;
-  required string trade_date = 5;
-  required string contract_object = 6;
-  required string contract_mark = 7;
-  required double pre_settl_price = 8;
-  required double pre_close_price = 9;
-  required double open_price = 10;
-  required double hightest_price = 11;
-  required double lowest_price = 12;
-  required double settl_price = 13;
-  required double close_price = 14;
-  required double turnover_vol = 15;
-  required double turnover_value = 16;
-  required double open_int = 17;
-  required string update_time = 18;
+  required string sec_id = 1 [default = ""];
+  required string ticker = 2 [default = ""];
+  required string short_name = 3 [default = ""];
+  required string exchange_id = 4 [default = ""];
+  required string trade_date = 5 [default = ""];
+  required string contract_object = 6 [default = ""];
+  required string contract_mark = 7 [default = ""];
+  required double pre_settl_price = 8 [default = -1.0];
+  required double pre_close_price = 9 [default = -1.0];
+  required double open_price = 10 [default = -1.0];
+  required double hightest_price = 11 [default = -1.0];
+  required double lowest_price = 12 [default = -1.0];
+  required double settl_price = 13 [default = -1.0];
+  required double close_price = 14 [default = -1.0];
+  required double turnover_vol = 15 [default = -1.0];
+  required double turnover_value = 16 [default = -1.0];
+  required double open_int = 17 [default = -1.0];
+  required int64  update_time = 18 [default = -1];
 }
