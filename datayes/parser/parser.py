@@ -8,10 +8,10 @@ Created on 2017/08/13
 import sys
 sys.path.append('../../')
 import platform
-
+import pdb
 
 from file_engine import FileEngine
-
+from parser_engine import ParserEngine
 
 if __name__ == '__main__':
 
@@ -21,4 +21,6 @@ if __name__ == '__main__':
 
     file_engine = FileEngine("/kywk/fin/futures/data", "*.txt")
     for file_unit in file_engine.fetch_files():
-        #print file_unit.exchange + '-->' + file_unit.symbol + '-->' + file_unit.full_filename
+        parsers = ParserEngine()
+        for i in parsers.parser(file_unit.read()):
+            print str(i) + "len:" + str(len(i))
