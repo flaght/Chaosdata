@@ -33,6 +33,8 @@ class FileUnit(object):
         self.__exchange = os.path.split(parent_dir)[-1]
         self.__full_filename = filename
 
+    def read():
+        return file_io.read(self.__full_filename)
 
 
 

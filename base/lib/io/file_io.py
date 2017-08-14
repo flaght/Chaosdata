@@ -73,6 +73,25 @@ def list_directory(dirname):
     """
     return os.listdir(dirname)
 
+def read_file_to_string(filename):
+  """Reads the entire contents of a file to a string.
+
+  Args:
+    filename: string, path to a file
+
+  Returns:
+    contents of the file as a string
+
+  Raises:
+    errors.OpError: Raises variety of errors that are subtypes e.g.
+    NotFoundError etc.
+  """
+  with open(filename, 'rb') as f:
+      return f.read()
+  return None
+
+
+
 def walk(top, in_order=True):
     """Recursive directory tree generator for directories.
 

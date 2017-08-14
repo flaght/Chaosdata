@@ -1,3 +1,4 @@
+# Copyright 2017 The ChaosBase Authors. All Rights Reserved.
 # -*- coding: utf-8 -*-
 
 '''
@@ -17,7 +18,7 @@ if __name__ == '__main__':
     if platform.system() == "Darwin" or platform.system() == "Linux":
         reload(sys)
         sys.setdefaultencoding('utf-8')
-    
+
     file_engine = FileEngine("/kywk/fin/futures/data", "*.txt")
     for file_unit in file_engine.fetch_files():
-        print file_unit.exchange + '-->' + file_unit.symbol + '-->' + file_unit.full_filename
+        #print file_unit.exchange + '-->' + file_unit.symbol + '-->' + file_unit.full_filename
