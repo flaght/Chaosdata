@@ -20,4 +20,4 @@ if __name__ == '__main__':
     
     file_engine = FileEngine("/kywk/fin/futures/data", "*.txt")
     for file_unit in file_engine.fetch_files():
-        print file_unit.exchange
+        print file_unit.exchange + '-->' + file_unit.symbol + '-->' + file_unit.full_filename

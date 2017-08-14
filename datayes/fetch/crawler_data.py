@@ -107,7 +107,7 @@ if __name__ == "__main__":
     #CrawleDataYes('XDCE')
     #CrawleDataYes('XSGE')
     #CrawleOldDataYes('XDCE')
-    CrawleOldDataYes('XDCE')  # 大连商品
+    #CrawleOldDataYes('XDCE')  # 大连商品
     CrawleOldDataYes('XSGE')  # 上海期货
     CrawleOldDataYes('XZCE')  # 郑州商品
     CrawleOldDataYes('CCFX')  # 中国金融
