@@ -6,6 +6,7 @@ from __future__ import absolute_import
 from __future__ import division
 import os
 import fnmatch
+import struct
 from base.lib.io import file_io
 import pdb
 class FileUnit(object):
@@ -42,20 +43,20 @@ class FileIO(object):
     def __init__(self, base_path):
         self.__base_path = base_path
 
-    def write_date_mkt(exchange_id, contract_object, symbol, name, content): #写入日数据
+    def write_date_mkt(self, exchange_id, contract_object, symbol, name, content): #写入日数据
         #/root/XDCE/FB/FB1604/201708.txt
         dirname = self.__base_path + "/" + exchange_id + "/" + contract_object + "/" + symbol
-        write_binary_stream(dirname, name, content)
+        self.write_binary_stream(dirname, name, content)
 
-    def write_binary_stream(dirname, filname, content):
+    def write_binary_stream(self, dirname, name, content):
         stream_len = 2 + len(content)
-        str_format = '=qh%ds' %(len(content))
+        str_format = '=h%ds' %(len(content))
         binary_stream = struct.pack(str_format,stream_len,content)
         if not os.path.exists(dirname):
             os.makedirs(dirname)
-        full_filename = dirname + "/" + filename
+        full_filename = dirname + "/" + name
         print full_filename
-        file_object = open(full_filename, 'w')
+        file_object = open(full_filename, 'ab')
         file_object.write(binary_stream)
         file_object.close()
 

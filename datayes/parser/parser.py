@@ -21,9 +21,9 @@ if __name__ == '__main__':
         sys.setdefaultencoding('utf-8')
 
     file_engine = FileEngine("/kywk/fin/futures/data", "*.txt")
-    file_io = FileIO("/kywk/fin/pb/futures")
+    file_io = FileIO("/kywk/fin/pb/futures/record")
     for file_unit in file_engine.fetch_files():
         parsers = ParserEngine()
         for i,co,filename in parsers.parser(file_unit.read()):
             #(exchange_id, contract_object, symbol, name, conten
-            file_io.write_binary_stream(file_unit.exchange, co, file_unit.symbol, filename, i)
+            file_io.write_date_mkt(file_unit.exchange, co, file_unit.symbol, filename, i)

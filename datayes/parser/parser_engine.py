@@ -12,14 +12,13 @@ class ParserEngine(object):
 
     def parser(self, content):
         try:
-            pdb.set_trace()
+            #pdb.set_trace()
             datayes =json.loads(content)
             ret_code = datayes['retCode']
             if ret_code != 1:
                 yield None
             data = datayes['data']
             for unit in data:
-                trade_month = ""
                 mkt_fut = datayes_mktfut_pb2.MKTFut()
                 if unit.has_key('secID'):
                     mkt_fut.sec_id = unit['secID']
