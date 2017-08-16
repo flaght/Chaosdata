@@ -19,6 +19,7 @@ class ParserEngine(object):
                 yield None
             data = datayes['data']
             for unit in data:
+                trade_month = ""
                 mkt_fut = datayes_mktfut_pb2.MKTFut()
                 if unit.has_key('secID'):
                     mkt_fut.sec_id = unit['secID']
@@ -41,9 +42,15 @@ class ParserEngine(object):
                     mkt_fut.exchange_id = ""
 
                 if unit.has_key('tradeDate'):
-                    mkt_fut.trade_date = unit['tradeDate']
+                    #2016-04-13 00:00:00
+                    trade_date_str = unit['tradeDate']
+                    time_array = time.strptime(trade_date_str, "%Y-%m-%d %H:%M:%S")
+                    mkt_fut.trade_date = int(time.mktime(time_array))
+                    now = unit['tradeDate'].split(' ')[0].split('-')
+                    filename = now[0] + "-" + now[1]
                 else:
-                    mkt_fut.trade_date = ""
+                    mkt_fut.trade_date = -1
+                    filename = "unkonw"
 
                 if unit.has_key('contractObject'):
                     mkt_fut.contract_object = unit['contractObject']
@@ -84,7 +91,7 @@ class ParserEngine(object):
                     mkt_fut.settl_price = float(unit['settlPrice'])
                 else:
                     mkt_fut.settl_price = -1.0
-                
+
                 if unit.has_key('closePrice'):
                     mkt_fut.close_price = float(unit['closePrice'])
                 else:
@@ -111,9 +118,10 @@ class ParserEngine(object):
                     time_array = time.strptime(update_time_str, "%Y-%m-%d %H:%M:%S")
                     mkt_fut.update_time = int(time.mktime(time_array))
                 else:
-                    mkt_fut.update_time = ""
+                    mkt_fut.update_time = -1
 
-                yield mkt_fut.SerializeToString()
+                yield mkt_fut.SerializeToString(), mkt_fut.contract_object, filename
+
         except Exception as e:
             print "========>"
             print e

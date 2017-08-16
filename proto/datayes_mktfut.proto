@@ -3,7 +3,7 @@ package chaosdata; message MKTFut {
   required string ticker = 2 [default = ""];
   required string short_name = 3 [default = ""];
   required string exchange_id = 4 [default = ""];
-  required string trade_date = 5 [default = ""];
+  required int64 trade_date = 5 [default = -1];
   required string contract_object = 6 [default = ""];
   required string contract_mark = 7 [default = ""];
   required double pre_settl_price = 8 [default = -1.0];

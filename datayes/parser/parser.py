@@ -11,6 +11,7 @@ import platform
 import pdb
 
 from file_engine import FileEngine
+from file_engine import FileIO
 from parser_engine import ParserEngine
 
 if __name__ == '__main__':
@@ -20,7 +21,9 @@ if __name__ == '__main__':
         sys.setdefaultencoding('utf-8')
 
     file_engine = FileEngine("/kywk/fin/futures/data", "*.txt")
+    file_io = FileIO("/kywk/fin/pb/futures")
     for file_unit in file_engine.fetch_files():
         parsers = ParserEngine()
-        for i in parsers.parser(file_unit.read()):
-            print str(i) + "len:" + str(len(i))
+        for i,co,filename in parsers.parser(file_unit.read()):
+            #(exchange_id, contract_object, symbol, name, conten
+            file_io.write_binary_stream(file_unit.exchange, co, file_unit.symbol, filename, i)
