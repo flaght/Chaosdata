@@ -15,7 +15,7 @@
 # Points to the root of Google Test, relative to where this file is.
 # Remember to tweak this if you move this file.
 
-LIB_DIR = ./../../../../library/mylib
+LIB_DIR = ./../../../library/mylib
 
 # Where to find user code.
 USER_DIR = $(LIB_DIR)/base
@@ -47,8 +47,7 @@ USER_HEADERS =  /usr/include/mysql/*.h \
 
 INCLUDE_PATHS = -I/usr/local/libmemcached-1.0.7/include \
 				-I$(THIRD_PATH)\
-				-I ../../../ \
-				-I ./../../\
+				-I ../ \
 				-I/usr/local/include\
 				-I/usr/include/mysql\
 				-I$(USER_DIR)\
@@ -88,30 +87,30 @@ stk_datacps.o : ./stk_datacps.cc $(ALL_HEADERS)
 mword.o : ./mword.cc $(ALL_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./mword.cc $(INCLUDE_PATHS)
 
-symbol_dynam_market.pb.o : ./../../proto/symbol_dynam_market.pb.cc $(ALL_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./../../proto/symbol_dynam_market.pb.cc $(INCLUDE_PATHS)
+symbol_dynam_market.pb.o : ./../proto/symbol_dynam_market.pb.cc $(ALL_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./../proto/symbol_dynam_market.pb.cc $(INCLUDE_PATHS)
 
-symbol_static.pb.o : ./../../proto/symbol_static.pb.cc $(ALL_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./../../proto/symbol_static.pb.cc $(INCLUDE_PATHS)
+symbol_static.pb.o : ./../proto/symbol_static.pb.cc $(ALL_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./../proto/symbol_static.pb.cc $(INCLUDE_PATHS)
 
-symbol_his_iopv.pb.o : ./../../proto/symbol_his_iopv.pb.cc $(ALL_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./../../proto/symbol_his_iopv.pb.cc $(INCLUDE_PATHS)
+symbol_his_iopv.pb.o : ./../proto/symbol_his_iopv.pb.cc $(ALL_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./../proto/symbol_his_iopv.pb.cc $(INCLUDE_PATHS)
 
-symbol_his_matu_yld.pb.o : ./../../proto/symbol_his_matu_yld.pb.cc $(ALL_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./../../proto/symbol_his_matu_yld.pb.cc $(INCLUDE_PATHS)
+symbol_his_matu_yld.pb.o : ./../proto/symbol_his_matu_yld.pb.cc $(ALL_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./../proto/symbol_his_matu_yld.pb.cc $(INCLUDE_PATHS)
 
-symbol_l2_mmpex.pb.o : ./../../proto/symbol_l2_mmpex.pb.cc $(ALL_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./../../proto/symbol_l2_mmpex.pb.cc $(INCLUDE_PATHS)
+symbol_l2_mmpex.pb.o : ./../proto/symbol_l2_mmpex.pb.cc $(ALL_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./../proto/symbol_l2_mmpex.pb.cc $(INCLUDE_PATHS)
 
-symbol_l2_order_state.pb.o : ./../../proto/symbol_l2_order_state.pb.cc $(ALL_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./../../proto/symbol_l2_order_state.pb.cc $(INCLUDE_PATHS)
+symbol_l2_order_state.pb.o : ./../proto/symbol_l2_order_state.pb.cc $(ALL_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./../proto/symbol_l2_order_state.pb.cc $(INCLUDE_PATHS)
 
-symbol_l2_report.pb.o : ./../../proto/symbol_l2_report.pb.cc $(ALL_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./../../proto/symbol_l2_report.pb.cc $(INCLUDE_PATHS)
+symbol_l2_report.pb.o : ./../proto/symbol_l2_report.pb.cc $(ALL_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./../proto/symbol_l2_report.pb.cc $(INCLUDE_PATHS)
 
 fc_parser : flw_his_data.o flw_his_stk.o flw_his_file.o mword.o stk_datacps.o main.o\
 		symbol_dynam_market.pb.o symbol_static.pb.o symbol_his_iopv.pb.o symbol_his_matu_yld.pb.o\
 		symbol_l2_mmpex.pb.o symbol_l2_order_state.pb.o symbol_l2_report.pb.o\
-		gtest_main.a /usr/local/lib/thostmduserapi.so $(LIB_DIR)/base/lib/mybase.a $(LIB_DIR)/third_party/lib/libhiredis.a $(LIB_DIR)/third_party/lib/librdkafka.a /usr/local/lib/lib/libiconv.a
+		/usr/local/lib/thostmduserapi.so $(LIB_DIR)/base/lib/mybase.a $(LIB_DIR)/third_party/lib/libhiredis.a $(LIB_DIR)/third_party/lib/librdkafka.a /usr/local/lib/lib/libiconv.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LINK_PATHS) -lpthread -lprotobuf -lexpat -lrt -ldl -lmysqlclient \
 	$^ -o $@
