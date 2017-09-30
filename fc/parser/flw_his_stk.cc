@@ -324,10 +324,11 @@ void FlwHisStk::WriteDynaData(HIS_DATA_TYPE data_type) {
     dynam_markert.add_sell_vol(dyna_data->sell_vol_[4]);
     std::string in_data;
     bool r = dynam_markert.SerializeToString(&in_data);
-    if (r) {    //写入文件
+    if (r && (in_data.c_str() > 0)) {    //写入文件
       WriteGoogleFile(dyna_data->time_, data_type, in_data);
     } else {
-      LOG_ERROR2("symbol:%s DYNA GoogleProtoBuffer Error", static_->symbol_);
+      LOG_ERROR2("symbol:%s DYNA GoogleProtoBuffer Error length:%d", 
+                 static_->symbol_,in_data.length());
     }
     index++;
     data_ptr_ = data_ptr_ + data_head_->item_size_;
@@ -375,10 +376,11 @@ void FlwHisStk::WriteL2MMPEX(HIS_DATA_TYPE data_type) {
     l2_mmpex.add_sell_vol(data->data_.sell_vol_[4]);
     std::string in_data;
     bool r = l2_mmpex.SerializeToString(&in_data);
-    if (r) {    //写入文件
+    if (r && (in_data.length() > 0)) {    //写入文件
       WriteGoogleFile(data->time_, data_type, in_data);
     } else {
-      LOG_ERROR2("symbol:%s HIS_L2_MMPEX GoogleProtoBuffer Error", static_->symbol_);
+      LOG_ERROR2("symbol:%s HIS_L2_MMPEX GoogleProtoBuffer Error length %d", 
+                 static_->symbol_,in_data.length());
     }
 
     index++;
@@ -397,10 +399,11 @@ void FlwHisStk::WriteL2Report(HIS_DATA_TYPE data_type) {
     l2_report.set_volume(data->volume_);
     std::string in_data;
     bool r = l2_report.SerializeToString(&in_data);
-    if (r) {    //写入文件
+    if (r && (in_data.length() > 0)) {    //写入文件
       WriteGoogleFile(data->time_, data_type, in_data);
     } else {
-      LOG_ERROR2("symbol:%s HIS_L2_MMPEX GoogleProtoBuffer Error", static_->symbol_);
+      LOG_ERROR2("symbol:%s HIS_L2_MMPEX GoogleProtoBuffer Error length:%d", 
+                 static_->symbol_, in_data.length());
     }
     index++;
     data_ptr_ = data_ptr_ + data_head_->item_size_;
@@ -436,10 +439,11 @@ void FlwHisStk::WriteOrderStat(HIS_DATA_TYPE data_type) {
     order_state->add_vol(data->data_.vol_[1].GetValue());
     std::string in_data;
     bool r = l2_order.SerializeToString(&in_data);
-    if (r) {    //写入文件
+    if (r && (in_data.length() > 0)) {    //写入文件
       WriteGoogleFile(data->time_, data_type, in_data);
     } else {
-      LOG_ERROR2("symbol:%s HIS_L2_MMPEX GoogleProtoBuffer Error", static_->symbol_);
+      LOG_ERROR2("symbol:%s HIS_L2_MMPEX GoogleProtoBuffer Error length:%d", 
+                 static_->symbol_, in_data.length());
     }
 
     index++;
@@ -457,10 +461,11 @@ void FlwHisStk::WriteIOPV(HIS_DATA_TYPE data_type) {
     iopv.set_value(data->value_);
     std::string in_data;
     bool r = iopv.SerializeToString(&in_data);
-    if (r) {    //写入文件
+    if (r && (in_data.length() > 0)) {    //写入文件
       WriteGoogleFile(data->time_, data_type, in_data);
     } else {
-      LOG_ERROR2("symbol:%s HIS_L2_MMPEX GoogleProtoBuffer Error", static_->symbol_);
+      LOG_ERROR2("symbol:%s HIS_L2_MMPEX GoogleProtoBuffer Error length:%d", 
+                 static_->symbol_,in_data.length());
     }
     index++;
     data_ptr_ = data_ptr_ + data_head_->item_size_;
@@ -477,10 +482,11 @@ void FlwHisStk::WriteMatuYld(HIS_DATA_TYPE data_type) {
     matu_yld.set_value(data->value_);
     std::string in_data;
     bool r = matu_yld.SerializeToString(&in_data);
-    if (r) {    //写入文件
+    if (r && (in_data.length() > 0)) {    //写入文件
       WriteGoogleFile(data->time_, data_type, in_data);
     } else {
-      LOG_ERROR2("symbol:%s HIS_L2_MMPEX GoogleProtoBuffer Error", static_->symbol_);
+      LOG_ERROR2("symbol:%s HIS_L2_MMPEX GoogleProtoBuffer Error length:%d", 
+                 static_->symbol_, in_data.length());
     }
     index++;
     data_ptr_ = data_ptr_ + data_head_->item_size_;
