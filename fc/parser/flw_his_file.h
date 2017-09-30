@@ -18,7 +18,7 @@ typedef std::map<std::string, fc_data::FlwHisStk*> HISSTK_MAP;
 typedef std::list<fc_data::FlwHisStk*> HISSTK_LIST;
 class FlwHisFile {
  public:
-  FlwHisFile();
+  FlwHisFile(std::string& base_dir);
   virtual ~FlwHisFile();
  private:
   const char* raw_data_;
@@ -28,6 +28,7 @@ class FlwHisFile {
  private:
   HISSTK_MAP his_stk_map_;
   HISSTK_LIST his_stk_list_;
+  std::string out_base_dir_;
  public:
   //打开历史数据文件，校验是否指定交易日
   virtual int OpenHisFile2Read(std::string& file_path, uint32 trade_date = 0);  //交易日，0表示不限定交易日

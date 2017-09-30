@@ -29,7 +29,7 @@ extern const chaos_data::SymbolStatic_SYMBOL_TYPE g_gpb_data_type[chaos_data::Sy
 class FlwHisStk {
   friend class FlwHisFile;
  protected:
-  FlwHisStk();
+  FlwHisStk(std::string& dir);
  public:
   virtual ~FlwHisStk();
  private:
@@ -48,13 +48,14 @@ class FlwHisStk {
   void* data_ptr_;
   uint32 market_date_;
   char market_mtk_[32];
+  std::string out_dir_;
  protected:
   //清楚数据
   void RestStk(void);
 
   //载入数据
   bool LoadStk(const unsigned char* & his_buffer, const uint32 market_date,
-               const uint16 market_mtk);
+               const uint16 market_mtk, const std::string& out_dir);
 
   //获取证券代码
   bool GetStkStatic(STK_STATIC& stk_code);

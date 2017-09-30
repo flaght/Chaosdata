@@ -6,11 +6,12 @@
 #include "logic/logic_comm.h"
 namespace fc_data {
 
-FlwHisFile::FlwHisFile()
+FlwHisFile::FlwHisFile(std::string& base_dir)
     : raw_data_(NULL),
       guid_(NULL),
       file_head_(NULL),
-      file_path_(NULL) {
+      file_path_(NULL),
+      out_base_dir_(base_dir){
 }
 
 FlwHisFile::~FlwHisFile() {
@@ -53,7 +54,7 @@ int FlwHisFile::OpenHisFile2Read(std::string& file_path, uint32 trade_date) {
       + file_head_->size_;
   fc_data::FlwHisStk* last_flw = NULL;
   for (int i = 0; i < file_head_->stk_count_; i++) {
-    fc_data::FlwHisStk* flw = new fc_data::FlwHisStk();
+    fc_data::FlwHisStk* flw = new fc_data::FlwHisStk(out_base_dir_);
     if (!flw->LoadStk(his_data,file_head_->market_date_, file_head_->market_)) {
       delete flw;
       return -1;

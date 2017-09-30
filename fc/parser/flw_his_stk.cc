@@ -30,7 +30,7 @@ const chaos_data::SymbolStatic_SYMBOL_TYPE g_gpb_data_type[chaos_data::SymbolSta
         chaos_data::SymbolStatic_SYMBOL_TYPE_REPO,
         chaos_data::SymbolStatic_SYMBOL_TYPE_COMM };
 
-FlwHisStk::FlwHisStk()
+FlwHisStk::FlwHisStk(std::string& dir)
     : static_size_(NULL),
       static_(NULL),
       static_ex_(NULL),
@@ -38,7 +38,8 @@ FlwHisStk::FlwHisStk()
       his_data_count_(NULL),
       data_ptr_(NULL),
       data_head_(NULL),
-      market_date_(0) {
+      market_date_(0),
+      out_dir_(dir){
   
    market_mtk_ = {0};
 }
@@ -470,7 +471,7 @@ void FlwHisStk::WriteGoogleFile(const int64 unix_time, HIS_DATA_TYPE data_type,
   packet::DataOutPacket out(true, packet_length);
   out.Write16(packet_length);
   out.WriteData(content.c_str(), content.length());
-  std::string dir = "/home/fc/tgb/" + std::string(s_stk_type_en[static_->ctype_])
+  std::string dir = out_dir_+ "/" + std::string(s_stk_type_en[static_->ctype_])
       + "/" + std::string(market_mtk_)
       + "/" + std::string(static_->symbol_)
       + "/" + std::string(g_his_data_type_en[data_type])
