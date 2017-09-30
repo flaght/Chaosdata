@@ -25,7 +25,7 @@ int main(int agrc, char* argv[]) {
   if (argv[1][0] == '-' && argv[1][1] == 'd' && argv[1][2] == 'i'
       && argv[1][3] == 'r') {
     std::string dir = argv[2];
-    std::String out_dir = argv[3];
+    std::string out_dir = argv[3];
     LOG_MSG2("%s", dir.c_str());
     file::FilePath dir_path(dir);
     std::list<file::FilePath> file_list;
@@ -33,15 +33,15 @@ int main(int agrc, char* argv[]) {
     while (file_list.size() > 0) {
       file::FilePath file = file_list.front();
       file_list.pop_front();
-      LOG_MSG2("%s", file.value().c_str());
-      fc_data::FlwHisFile his_file(dir);
-      his_file.OpenHisFile2Read(file);
+      LOG_MSG2("file:%s", file.value().c_str());
+      fc_data::FlwHisFile his_file(out_dir);
+      his_file.OpenHisFile2Read(file.value());
     }
   }else if(argv[1][0] == '-' && argv[1][1] == 'f' && argv[1][2] == 'i'
           && argv[1][3] == 'l' && argv[1][4] == 'e'){
       std::string file = argv[2];
-      std::String out_dir = argv[3];
-      fc_data::FlwHisFile his_file(dir);
+      std::string out_dir = argv[3];
+      fc_data::FlwHisFile his_file(out_dir);
       his_file.OpenHisFile2Read(file);
    }else{
     usage();

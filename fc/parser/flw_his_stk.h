@@ -55,7 +55,7 @@ class FlwHisStk {
 
   //载入数据
   bool LoadStk(const unsigned char* & his_buffer, const uint32 market_date,
-               const uint16 market_mtk, const std::string& out_dir);
+               const uint16 market_mtk);
 
   //获取证券代码
   bool GetStkStatic(STK_STATIC& stk_code);
@@ -70,7 +70,7 @@ class FlwHisStk {
   void ProcessTypeData(fc_data::FlwHisData* flw_data);
 
   //写入静态数据类型
-  void WriteStatic(const int32 year, const int32 month, const int32 day);
+  void WriteStatic(HIS_DATA_TYPE data_type, const int32 year, const int32 month, const int32 day);
 
   //google protobuf 写入
   void GoogleProtobufWriteFile(const char* symbol, HIS_DATA_TYPE data_type,

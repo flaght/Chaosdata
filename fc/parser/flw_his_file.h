@@ -31,7 +31,7 @@ class FlwHisFile {
   std::string out_base_dir_;
  public:
   //打开历史数据文件，校验是否指定交易日
-  virtual int OpenHisFile2Read(std::string& file_path, uint32 trade_date = 0);  //交易日，0表示不限定交易日
+  virtual int OpenHisFile2Read(const std::string& file_path, uint32 trade_date = 0);  //交易日，0表示不限定交易日
 
 
   //遍历文件内容

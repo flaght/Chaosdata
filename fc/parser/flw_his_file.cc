@@ -15,10 +15,11 @@ FlwHisFile::FlwHisFile(std::string& base_dir)
 }
 
 FlwHisFile::~FlwHisFile() {
-  if (raw_data_){delete[] raw_data_; raw_data_ = NULL;}
-  if (guid_) {delete guid_; guid_ = NULL;}
-  if (file_head_) {delete file_head_; file_head_ = NULL;}
-  if (file_path_) {delete file_path_; file_path_ = NULL;}
+    while(his_stk_list_.size()){
+        fc_data::FlwHisStk* flw_stk = his_stk_list_.front();
+        his_stk_list_.pop_front();
+        if(flw_stk){delete flw_stk; flw_stk = NULL;}
+    }
 }
 
 int FlwHisFile::ProcessHisSTK() {
@@ -34,7 +35,7 @@ int FlwHisFile::ProcessHisSTK() {
 
 }
 
-int FlwHisFile::OpenHisFile2Read(std::string& file_path, uint32 trade_date) {
+int FlwHisFile::OpenHisFile2Read(const std::string& file_path, uint32 trade_date) {
   file_path_ = new file::FilePath(file_path);
   std::string content;
   bool r = file::ReadFileToString(*file_path_, &content);
