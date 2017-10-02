@@ -27,11 +27,10 @@ int FlwHisFile::ProcessHisSTK() {
   while (his_stk_list_.size() > 0) {
     fc_data::FlwHisStk* flw_stk = his_stk_list_.front();
     his_stk_list_.pop_front();
-
     //printf("symbol %s symbol type %s price_digit %d\n",flw_stk->static_->symbol_,
     //  s_stk_type[flw_stk->static_->ctype_],flw_stk->static_->price_digit_);
     flw_stk->ProcessHisTypeList();
-    //
+    if(flw_stk) {delete flw_stk; flw_stk = NULL;}
   }
 
 }

@@ -51,6 +51,7 @@ FlwHisStk::~FlwHisStk() {
       his_data_list_.pop_front();
       if (flw_data) {delete flw_data; flw_data = NULL;}
   }
+  //LOG_MSG2("his_data_list size %d",his_data_list_.size());
 }
 
 //清除数据
