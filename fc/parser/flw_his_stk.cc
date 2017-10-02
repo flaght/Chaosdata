@@ -269,7 +269,7 @@ void FlwHisStk::WriteStatic(HIS_DATA_TYPE data_type, const int32 year, const int
       + base::BasicUtil::StringUtil::Int64ToString(year)
            + base::BasicUtil::StringUtil::Int64ToString(month)
       + base::BasicUtil::StringUtil::Int64ToString(day);
-  std::string temp_path = current_dir_path.value() + "/" + file_name + "." + std::string(g_his_data_suffix[0]) + ".chspb";
+  std::string temp_path = current_dir_path.value() + "/" + file_name + std::string(g_his_data_suffix[0]) + ".chspb";
 
   file::FilePath temp_file_path(temp_path);
   //檢測是否存在
@@ -377,7 +377,6 @@ void FlwHisStk::WriteL2MMPEX(HIS_DATA_TYPE data_type) {
     std::string in_data;
     bool r = l2_mmpex.SerializeToString(&in_data);
 
-    ULOG_DEBUG2("r:%d in_data :%d is empty %d",r,in_data.length(), in_data.empty());
     if (r && !in_data.empty()) {    //写入文件
       WriteGoogleFile(data->time_, data_type, in_data);
     } else {
@@ -402,7 +401,6 @@ void FlwHisStk::WriteL2Report(HIS_DATA_TYPE data_type) {
     std::string in_data;
     bool r = l2_report.SerializeToString(&in_data);
     
-    ULOG_DEBUG2("r:%d in_data :%d is empty %d",r,in_data.length(), in_data.empty());
     if (r && !in_data.empty()) {    //写入文件
       WriteGoogleFile(data->time_, data_type, in_data);
     } else {
@@ -444,7 +442,6 @@ void FlwHisStk::WriteOrderStat(HIS_DATA_TYPE data_type) {
     std::string in_data;
     bool r = l2_order.SerializeToString(&in_data);
     
-    ULOG_DEBUG2("r:%d in_data :%d is empty %d",r,in_data.length(), in_data.empty());
     if (r && !in_data.empty()) {    //写入文件
       WriteGoogleFile(data->time_, data_type, in_data);
     } else {
@@ -468,7 +465,6 @@ void FlwHisStk::WriteIOPV(HIS_DATA_TYPE data_type) {
     std::string in_data;
     bool r = iopv.SerializeToString(&in_data);
     
-    ULOG_DEBUG2("r:%d in_data :%d is empty %d",r, in_data.length(), in_data.empty());
     if (r && !in_data.length()) {    //写入文件
       WriteGoogleFile(data->time_, data_type, in_data);
     } else {
@@ -491,7 +487,6 @@ void FlwHisStk::WriteMatuYld(HIS_DATA_TYPE data_type) {
     std::string in_data;
     bool r = matu_yld.SerializeToString(&in_data);
     
-    ULOG_DEBUG2("r:%d in_data :%d is empty %d",r, in_data.length(), in_data.empty());
     if (r && !in_data.empty()) {    //写入文件
       WriteGoogleFile(data->time_, data_type, in_data);
     } else {
