@@ -19,7 +19,7 @@ void usage() {
 
 int main(int agrc, char* argv[]) {
   me = argv[0];
-  LOG_MSG2("%s", me);
+  ULOG_DEBUG2("%s", me);
   if (agrc < 3) {
     usage();
     return 1;
@@ -36,7 +36,7 @@ int main(int agrc, char* argv[]) {
     while (file_list.size() > 0) {
       file::FilePath file = file_list.front();
       file_list.pop_front();
-      LOG_MSG2("file:%s", file.value().c_str());
+      ULOG_DEBUG2("file:%s", file.value().c_str());
       fc_data::FlwHisFile his_file(out_dir);
       his_file.OpenHisFile2Read(file.value());
     }

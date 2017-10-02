@@ -29,7 +29,7 @@ LINK_PATHS = -L./ -L/usr/local/libmemcached-1.0.7/lib/  -L/usr/lib64/mysql
 # Flags passed to the preprocessor.
 # Set Google Test's header directory as a system directory, such that
 # the compiler doesn't generate warnings in Google Test headers.
-CPPFLAGS += -isystem -D_DEBUG -DDEBUG-DUSR_LOG_ERROR -DUSR_LOG_MSG
+CPPFLAGS += -isystem -D_DEBUG -DDEBUG -DUSER_LOG_ERROR -DUSER_LOG_MSG -DUSER_LOG_DEBUG
 
 # Flags passed to the C++ compiler.
 CXXFLAGS += -g  -Wextra -pthread
@@ -72,28 +72,26 @@ clean :
 main.o : ./main.cc $(ALL_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./main.cc $(INCLUDE_PATHS)
 
-flw_his_stk.o : ./flw_his_stk.cc $(ALL_HEADERS)
-		$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./flw_his_stk.cc $(INCLUDE_PATHS)
 
-flw_his_data.o : ./flw_his_data.cc $(ALL_HEADERS)
-		$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./flw_his_data.cc $(INCLUDE_PATHS)
+flw_his_data.o : ./flw_his_data.cc  $(ALL_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./flw_his_data.cc  $(INCLUDE_PATHS)
 
-flw_his_file.o : ./flw_his_file.cc $(ALL_HEADERS)
-		$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./flw_his_file.cc $(INCLUDE_PATHS)
+flw_his_file.o : ./flw_his_file.cc  $(ALL_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./flw_his_file.cc  $(INCLUDE_PATHS)
 
-stk_datacps.o : ./stk_datacps.cc $(ALL_HEADERS)
-		$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./stk_datacps.cc $(INCLUDE_PATHS)
+flw_his_stk.o : ./flw_his_stk.cc  $(ALL_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./flw_his_stk.cc  $(INCLUDE_PATHS)
 
-mword.o : ./mword.cc $(ALL_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./mword.cc $(INCLUDE_PATHS)
+mword.o : ./mword.cc  $(ALL_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./mword.cc  $(INCLUDE_PATHS)
+
+stk_datacps.o : ./stk_datacps.cc  $(ALL_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./stk_datacps.cc  $(INCLUDE_PATHS)
 
 symbol_dynam_market.pb.o : ./../proto/symbol_dynam_market.pb.cc $(ALL_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./../proto/symbol_dynam_market.pb.cc $(INCLUDE_PATHS)
 
-symbol_static.pb.o : ./../proto/symbol_static.pb.cc $(ALL_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./../proto/symbol_static.pb.cc $(INCLUDE_PATHS)
-
-symbol_his_iopv.pb.o : ./../proto/symbol_his_iopv.pb.cc $(ALL_HEADERS)
+symbol_his_iopv.pb.o  : ./../proto/symbol_his_iopv.pb.cc $(ALL_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./../proto/symbol_his_iopv.pb.cc $(INCLUDE_PATHS)
 
 symbol_his_matu_yld.pb.o : ./../proto/symbol_his_matu_yld.pb.cc $(ALL_HEADERS)
@@ -108,9 +106,12 @@ symbol_l2_order_state.pb.o : ./../proto/symbol_l2_order_state.pb.cc $(ALL_HEADER
 symbol_l2_report.pb.o : ./../proto/symbol_l2_report.pb.cc $(ALL_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./../proto/symbol_l2_report.pb.cc $(INCLUDE_PATHS)
 
-fc_parser : flw_his_data.o flw_his_stk.o flw_his_file.o mword.o stk_datacps.o main.o\
-		symbol_dynam_market.pb.o symbol_static.pb.o symbol_his_iopv.pb.o symbol_his_matu_yld.pb.o\
-		symbol_l2_mmpex.pb.o symbol_l2_order_state.pb.o symbol_l2_report.pb.o\
-		/usr/local/lib/thostmduserapi.so $(LIB_DIR)/base/lib/mybase.a $(LIB_DIR)/third_party/lib/libhiredis.a $(LIB_DIR)/third_party/lib/librdkafka.a /usr/local/lib/lib/libiconv.a
+symbol_static.pb.o : ./../proto/symbol_static.pb.cc $(ALL_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./../proto/symbol_static.pb.cc $(INCLUDE_PATHS)
+
+fc_parser : main.o flw_his_data.o flw_his_file.o flw_his_stk.o mword.o stk_datacps.o\
+	symbol_dynam_market.pb.o symbol_his_iopv.pb.o symbol_his_matu_yld.pb.o symbol_l2_mmpex.pb.o\
+	symbol_l2_order_state.pb.o symbol_l2_report.pb.o symbol_static.pb.o\
+	$(LIB_DIR)/base/lib/mybase.a $(LIB_DIR)/third_party/lib/libhiredis.a $(LIB_DIR)/third_party/lib/librdkafka.a /usr/local/lib/lib/libiconv.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LINK_PATHS) -lpthread -lprotobuf -lexpat -lrt -ldl -lmysqlclient \
 	$^ -o $@
