@@ -275,7 +275,7 @@ void FlwHisStk::WriteStatic(HIS_DATA_TYPE data_type, const int32 year, const int
   file::FilePath temp_file_path(temp_path);
   //檢測是否存在
   file::DirectoryExists(temp_file_path);
-  file::WriteFile(temp_file_path, content.c_str(), content.length());
+  file::WriteFile(temp_file_path, in_data.c_str(), in_data.length());
 }
 
 void FlwHisStk::WriteDynaData(HIS_DATA_TYPE data_type) {
