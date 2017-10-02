@@ -264,12 +264,12 @@ void FlwHisStk::WriteStatic(HIS_DATA_TYPE data_type, const int32 year, const int
   if (!file::DirectoryExists(current_dir_path))
     file::CreateDirectory(current_dir_path);
   
-  std::string file_name = std::string(g_his_data_type_en[0]) + "_" + std::string(market_mtk_) + "_"
+  std::string file_name = std::string(market_mtk_) + "_"
   + std::string(static_->symbol_) + "_" 
       + base::BasicUtil::StringUtil::Int64ToString(year)
            + base::BasicUtil::StringUtil::Int64ToString(month)
       + base::BasicUtil::StringUtil::Int64ToString(day);
-  std::string temp_path = current_dir_path.value() + "/" + file_name + ".chspb";
+  std::string temp_path = current_dir_path.value() + "/" + file_name + "." + std::string(g_his_data_suffix[0]) + ".chspb";
 
   file::FilePath temp_file_path(temp_path);
   //檢測是否存在
@@ -322,9 +322,9 @@ void FlwHisStk::WriteDynaData(HIS_DATA_TYPE data_type) {
     dynam_markert.add_buy_vol(dyna_data->buy_vol_[4]);
     dynam_markert.add_sell_price(dyna_data->sell_price_[4]);
     dynam_markert.add_sell_vol(dyna_data->sell_vol_[4]);
-    std::string in_data;
+    std::string in_data = "";
     bool r = dynam_markert.SerializeToString(&in_data);
-    if (r && (in_data.c_str() > 0)) {    //写入文件
+    if (r && !in_data.empty()) {    //写入文件
       WriteGoogleFile(dyna_data->time_, data_type, in_data);
     } else {
       LOG_ERROR2("symbol:%s DYNA GoogleProtoBuffer Error length:%d", 
@@ -376,7 +376,9 @@ void FlwHisStk::WriteL2MMPEX(HIS_DATA_TYPE data_type) {
     l2_mmpex.add_sell_vol(data->data_.sell_vol_[4]);
     std::string in_data;
     bool r = l2_mmpex.SerializeToString(&in_data);
-    if (r && (in_data.length() > 0)) {    //写入文件
+
+    ULOG_DEBUG2("r:%d in_data :%d is empty %d",r,in_data.length(), in_data.empty());
+    if (r && !in_data.empty()) {    //写入文件
       WriteGoogleFile(data->time_, data_type, in_data);
     } else {
       LOG_ERROR2("symbol:%s HIS_L2_MMPEX GoogleProtoBuffer Error length %d", 
@@ -399,7 +401,9 @@ void FlwHisStk::WriteL2Report(HIS_DATA_TYPE data_type) {
     l2_report.set_volume(data->volume_);
     std::string in_data;
     bool r = l2_report.SerializeToString(&in_data);
-    if (r && (in_data.length() > 0)) {    //写入文件
+    
+    ULOG_DEBUG2("r:%d in_data :%d is empty %d",r,in_data.length(), in_data.empty());
+    if (r && !in_data.empty()) {    //写入文件
       WriteGoogleFile(data->time_, data_type, in_data);
     } else {
       LOG_ERROR2("symbol:%s HIS_L2_MMPEX GoogleProtoBuffer Error length:%d", 
@@ -439,7 +443,9 @@ void FlwHisStk::WriteOrderStat(HIS_DATA_TYPE data_type) {
     order_state->add_vol(data->data_.vol_[1].GetValue());
     std::string in_data;
     bool r = l2_order.SerializeToString(&in_data);
-    if (r && (in_data.length() > 0)) {    //写入文件
+    
+    ULOG_DEBUG2("r:%d in_data :%d is empty %d",r,in_data.length(), in_data.empty());
+    if (r && !in_data.empty()) {    //写入文件
       WriteGoogleFile(data->time_, data_type, in_data);
     } else {
       LOG_ERROR2("symbol:%s HIS_L2_MMPEX GoogleProtoBuffer Error length:%d", 
@@ -461,7 +467,9 @@ void FlwHisStk::WriteIOPV(HIS_DATA_TYPE data_type) {
     iopv.set_value(data->value_);
     std::string in_data;
     bool r = iopv.SerializeToString(&in_data);
-    if (r && (in_data.length() > 0)) {    //写入文件
+    
+    ULOG_DEBUG2("r:%d in_data :%d is empty %d",r, in_data.length(), in_data.empty());
+    if (r && !in_data.length()) {    //写入文件
       WriteGoogleFile(data->time_, data_type, in_data);
     } else {
       LOG_ERROR2("symbol:%s HIS_L2_MMPEX GoogleProtoBuffer Error length:%d", 
@@ -482,7 +490,9 @@ void FlwHisStk::WriteMatuYld(HIS_DATA_TYPE data_type) {
     matu_yld.set_value(data->value_);
     std::string in_data;
     bool r = matu_yld.SerializeToString(&in_data);
-    if (r && (in_data.length() > 0)) {    //写入文件
+    
+    ULOG_DEBUG2("r:%d in_data :%d is empty %d",r, in_data.length(), in_data.empty());
+    if (r && !in_data.empty()) {    //写入文件
       WriteGoogleFile(data->time_, data_type, in_data);
     } else {
       LOG_ERROR2("symbol:%s HIS_L2_MMPEX GoogleProtoBuffer Error length:%d", 
@@ -497,7 +507,7 @@ void FlwHisStk::WriteGoogleFile(const int64 unix_time, HIS_DATA_TYPE data_type,
                                 const std::string& content) {
   time_t u_time = unix_time;
   struct tm *local_time = localtime(&u_time);
-  int32 packet_length = content.length() + sizeof(int16);
+  int16 packet_length = content.length() + sizeof(int16);
   packet::DataOutPacket out(true, packet_length);
   out.Write16(packet_length);
   out.WriteData(content.c_str(), content.length());
@@ -517,7 +527,8 @@ void FlwHisStk::WriteGoogleFile(const int64 unix_time, HIS_DATA_TYPE data_type,
       + base::BasicUtil::StringUtil::Int64ToString(local_time->tm_year + 1900)
       + base::BasicUtil::StringUtil::Int64ToString(local_time->tm_mon + 1)
       + base::BasicUtil::StringUtil::Int64ToString(local_time->tm_mday);
-  std::string temp_path = current_dir_path.value() + "/" + file_name + ".chspb";
+  std::string temp_path = current_dir_path.value() + "/" + file_name + "." +  std::string(g_his_data_suffix[data_type])
+                + ".chspb";
 
   file::FilePath temp_file_path(temp_path);
   //檢測是否存在

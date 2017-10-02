@@ -8,6 +8,9 @@ const char* g_his_data_type[HIS_DATA_TYPE_COUNT] = { "静态数据", "动态行�
 const char* g_his_data_type_en[HIS_DATA_TYPE_COUNT] = {"STATIC", "DYNA",
     "L2_MMPEX","L2_REPORT","L2_ORDER_STAT","HIS_IOPV","MatuYld"};
 
+const char* g_his_data_suffix[HIS_DATA_TYPE_COUNT] = {".stc","dya",
+    ".l2mx",".l2rt",".l2ost",".iopv",".mad"};
+
 const char* s_stk_type[] = { "指数", "股票", "基金", "债券", "其它股票", "选择权", "外汇", "期货",
     "期指", "认购证", "ETF", "LOF", "可转债", "信托", "权证", "回购", "商品现货" };
 

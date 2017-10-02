@@ -4,6 +4,7 @@
 #include "flw_his_file.h"
 #include "stk_datacps.h"
 #include "logic/logic_comm.h"
+#include "file/file_util.h"
 namespace fc_data {
 
 FlwHisFile::FlwHisFile(std::string& base_dir)

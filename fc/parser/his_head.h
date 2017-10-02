@@ -5,18 +5,20 @@
 #define CHAOS_FC_HIS_HEAD_H__
 
 #pragma once
-#pragma pack (1)
+//#pragma pack (push,1)
 
 #include "basic/basictypes.h"
 #include "mword.h"
 
+#pragma pack(push)
+#pragma pack (1)
 struct GUID {
   uint32 data1_;
   uint16 data2_;
   uint16 data3_;
   uint8 data4_[8];
 };
-
+//#pragma pack(pop)
 const struct GUID GUID_FC_HISDATA = { 0x2f872015, 0xb46e, 0x4d60, { 0x89, 0x60,
     0xb6, 0xb6, 0x6c, 0x18, 0x5a, 0xff } };
 
@@ -321,8 +323,11 @@ enum HISHD_COMPRESS_TYPE {
   CT_MASKCOUNT,					//	压缩方式总数
   CT_MASK = 0xFF					//	压缩标志掩码
 };
-
+#pragma pack(pop)
 extern const char* g_data_compress_type[CT_MASKCOUNT];
+
+extern const char* g_his_data_suffix[HIS_DATA_TYPE_COUNT];
+
 
 extern const char* g_his_data_type[HIS_DATA_TYPE_COUNT];
 
