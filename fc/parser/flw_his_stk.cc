@@ -527,7 +527,7 @@ void FlwHisStk::WriteGoogleFile(const int64 unix_time, HIS_DATA_TYPE data_type,
       + base::BasicUtil::StringUtil::Int64ToString(local_time->tm_year + 1900)
       + base::BasicUtil::StringUtil::Int64ToString(local_time->tm_mon + 1)
       + base::BasicUtil::StringUtil::Int64ToString(local_time->tm_mday);
-  std::string temp_path = current_dir_path.value() + "/" + file_name + "." +  std::string(g_his_data_suffix[data_type])
+  std::string temp_path = current_dir_path.value() + "/" + file_name  +  std::string(g_his_data_suffix[data_type])
                 + ".chspb";
 
   file::FilePath temp_file_path(temp_path);
