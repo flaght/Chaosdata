@@ -32,7 +32,7 @@ LINK_PATHS = -L./ -L/usr/local/libmemcached-1.0.7/lib/  -L/usr/lib64/mysql
 CPPFLAGS += -isystem -D_DEBUG -DDEBUG -DUSR_LOG_ERROR -DUSR_LOG_MSG -DUSR_LOG_DEBUG
 
 # Flags passed to the C++ compiler.
-CXXFLAGS += -g  -Wextra -pthread
+CXXFLAGS += -g  -Wextra -pthread -Wno-unknown-pragmas -Wno-unused-parameter
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.

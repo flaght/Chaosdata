@@ -92,8 +92,8 @@ class FlwHisStk {
   void WriteOrderStat(HIS_DATA_TYPE data_type);
   void WriteIOPV(HIS_DATA_TYPE data_type);
   void WriteMatuYld(HIS_DATA_TYPE data_type);
-  void WriteIndexPosFile(const int64 unit_time, const std::string& content);
-  int16 WriteGoogleFile(const int64 unix_time, HIS_DATA_TYPE data_type,
+  void WriteIndexPosFile(const int64 unit_time);
+  int16 WriteGoogleFile(const int64 unix_time, const char* his_data_type,const char* his_data_suffix,
                        const std::string& content);
 
   chaos_data::SymbolStatic_SYMBOL_SUBTYPE GetSymbolSubType(const char sub_type);
