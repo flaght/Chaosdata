@@ -81,6 +81,10 @@ class FlwHisStk {
                                const int32 year, const int32 month,
                                const int32 day, const int32 hour,
                                const void* data_ptr);
+
+  //设置索引
+  void SetIndexPos(const int32 tt_time, const int32 packet_length);
+
  private:
   void WriteDynaData(HIS_DATA_TYPE data_type);
   void WriteL2MMPEX(HIS_DATA_TYPE data_type);
@@ -88,7 +92,8 @@ class FlwHisStk {
   void WriteOrderStat(HIS_DATA_TYPE data_type);
   void WriteIOPV(HIS_DATA_TYPE data_type);
   void WriteMatuYld(HIS_DATA_TYPE data_type);
-  void WriteGoogleFile(const int64 unix_time, HIS_DATA_TYPE data_type,
+  void WriteIndexPosFile(const int64 unit_time, const std::string& content);
+  int16 WriteGoogleFile(const int64 unix_time, HIS_DATA_TYPE data_type,
                        const std::string& content);
 
   chaos_data::SymbolStatic_SYMBOL_SUBTYPE GetSymbolSubType(const char sub_type);
