@@ -14,6 +14,7 @@
 #include "proto/symbol_l2_report.pb.h"
 #include "proto/symbol_his_iopv.pb.h"
 #include "proto/symbol_his_matu_yld.pb.h"
+#include "proto/symbol_pos_index.pb.h"
 #include "basic/basictypes.h"
 #include <string>
 #include <vector>
@@ -43,12 +44,15 @@ class FlwHisStk {
   const int32* his_data_count_;
 
  private:
+  chaos_data::SymbolPosIndex last_pos_index_;
+ private:
   std::string data_buffer_;
   struct HIS_DATA_HEAD* data_head_;
   void* data_ptr_;
   uint32 market_date_;
   char market_mtk_[32];
   std::string out_dir_;
+
  protected:
   //清楚数据
   void RestStk(void);

@@ -39,17 +39,23 @@ FlwHisStk::FlwHisStk(std::string& dir)
       data_ptr_(NULL),
       data_head_(NULL),
       market_date_(0),
-      out_dir_(dir){
-  
-   market_mtk_ = {0};
+      out_dir_(dir) {
+
+  market_mtk_ = {0};
+  last_pos_index_.set_start_pos(0);
+  last_pos_index_.set_time_index(0);
+  last_pos_index_.set_end_pos(0);
 }
 
 FlwHisStk::~FlwHisStk() {
   RestStk();
-  while(his_data_list_.size() > 0) {
-      fc_data::FlwHisData* flw_data = his_data_list_.front();
-      his_data_list_.pop_front();
-      if (flw_data) {delete flw_data; flw_data = NULL;}
+  while (his_data_list_.size() > 0) {
+    fc_data::FlwHisData* flw_data = his_data_list_.front();
+    his_data_list_.pop_front();
+    if (flw_data) {
+      delete flw_data;
+      flw_data = NULL;
+    }
   }
   //LOG_MSG2("his_data_list size %d",his_data_list_.size());
 }
@@ -143,13 +149,16 @@ bool FlwHisStk::ProcessHisTypeList() {
   return true;
 }
 
-void FlwHisStk::WriteStatic(HIS_DATA_TYPE data_type, const int32 year, const int32 month,
-                            const int32 day) {
+void FlwHisStk::WriteStatic(HIS_DATA_TYPE data_type, const int32 year,
+                            const int32 month, const int32 day) {
   chaos_data::SymbolStatic symbol_static;
   std::string content;
   symbol_static.set_symbol(static_->symbol_);
   symbol_static.set_name(static_->name_);
   symbol_static.set_ctype(g_gpb_data_type[static_->ctype_]);
+  symbol_static.set_market_mtk(market_mtk_);
+  symbol_static.set_market_date(10000 * year + month * 100 + day);
+  symbol_static.set_his_count(his_data_count_);
   symbol_static.set_csub_type(GetSymbolSubType(static_ex_->csub_type_));
   symbol_static.set_price_digit(static_->price_digit_);
   symbol_static.set_vol_unit(static_->vol_unit_);
@@ -250,32 +259,34 @@ void FlwHisStk::WriteStatic(HIS_DATA_TYPE data_type, const int32 year, const int
 
   std::string in_data;
   bool r = symbol_static.SerializeToString(&in_data);
-  if (!r) {
-    LOG_ERROR2("symbol %s STK_STATIC GoogleProtoBuffer error ", static_->symbol_);
-    return;
+
+  if (r && !in_data.empty()) {    //写入文件
+    WriteGoogleFile(dyna_data->time_, data_type, in_data);
+  } else {
+    LOG_ERROR2("symbol:%s DYNA GoogleProtoBuffer Error length:%d",
+               static_->symbol_, in_data.length());
   }
+  /*std::string dir = out_dir_ + "/" + std::string(s_stk_type_en[static_->ctype_])
+   + "/" + std::string(market_mtk_) + "/" + std::string(static_->symbol_)
+   + "/" + std::string(g_his_data_type_en[data_type])
+   + "/" + base::BasicUtil::StringUtil::Int64ToString(year)
+   + "/" + base::BasicUtil::StringUtil::Int64ToString(month);
 
-  std::string dir = out_dir_ + "/" + std::string(s_stk_type_en[static_->ctype_])
-        + "/" + std::string(market_mtk_) + "/" + std::string(static_->symbol_)
-        + "/" + std::string(g_his_data_type_en[data_type]) 
-        + "/" + base::BasicUtil::StringUtil::Int64ToString(year)
-        + "/" + base::BasicUtil::StringUtil::Int64ToString(month);
-  
-  file::FilePath current_dir_path(dir);
-  if (!file::DirectoryExists(current_dir_path))
-    file::CreateDirectory(current_dir_path);
-  
-  std::string file_name = std::string(market_mtk_) + "_"
-  + std::string(static_->symbol_) + "_" 
-      + base::BasicUtil::StringUtil::Int64ToString(year)
-           + base::BasicUtil::StringUtil::Int64ToString(month)
-      + base::BasicUtil::StringUtil::Int64ToString(day);
-  std::string temp_path = current_dir_path.value() + "/" + file_name + std::string(g_his_data_suffix[0]) + ".chspb";
+   file::FilePath current_dir_path(dir);
+   if (!file::DirectoryExists(current_dir_path))
+   file::CreateDirectory(current_dir_path);
 
-  file::FilePath temp_file_path(temp_path);
-  //檢測是否存在
-  file::DirectoryExists(temp_file_path);
-  file::WriteFile(temp_file_path, in_data.c_str(), in_data.length());
+   std::string file_name = std::string(market_mtk_) + "_"
+   + std::string(static_->symbol_) + "_"
+   + base::BasicUtil::StringUtil::Int64ToString(year)
+   + base::BasicUtil::StringUtil::Int64ToString(month)
+   + base::BasicUtil::StringUtil::Int64ToString(day);
+   std::string temp_path = current_dir_path.value() + "/" + file_name + std::string(g_his_data_suffix[0]) + ".chspb";
+
+   file::FilePath temp_file_path(temp_path);
+   //檢測是否存在
+   file::DirectoryExists(temp_file_path);
+   file::WriteFile(temp_file_path, in_data.c_str(), in_data.length());*/
 }
 
 void FlwHisStk::WriteDynaData(HIS_DATA_TYPE data_type) {
@@ -328,8 +339,8 @@ void FlwHisStk::WriteDynaData(HIS_DATA_TYPE data_type) {
     if (r && !in_data.empty()) {    //写入文件
       WriteGoogleFile(dyna_data->time_, data_type, in_data);
     } else {
-      LOG_ERROR2("symbol:%s DYNA GoogleProtoBuffer Error length:%d", 
-                 static_->symbol_,in_data.length());
+      LOG_ERROR2("symbol:%s DYNA GoogleProtoBuffer Error length:%d",
+                 static_->symbol_, in_data.length());
     }
     index++;
     data_ptr_ = data_ptr_ + data_head_->item_size_;
@@ -381,8 +392,8 @@ void FlwHisStk::WriteL2MMPEX(HIS_DATA_TYPE data_type) {
     if (r && !in_data.empty()) {    //写入文件
       WriteGoogleFile(data->time_, data_type, in_data);
     } else {
-      LOG_ERROR2("symbol:%s HIS_L2_MMPEX GoogleProtoBuffer Error length %d", 
-                 static_->symbol_,in_data.length());
+      LOG_ERROR2("symbol:%s HIS_L2_MMPEX GoogleProtoBuffer Error length %d",
+                 static_->symbol_, in_data.length());
     }
 
     index++;
@@ -401,11 +412,11 @@ void FlwHisStk::WriteL2Report(HIS_DATA_TYPE data_type) {
     l2_report.set_volume(data->volume_);
     std::string in_data;
     bool r = l2_report.SerializeToString(&in_data);
-    
+
     if (r && !in_data.empty()) {    //写入文件
       WriteGoogleFile(data->time_, data_type, in_data);
     } else {
-      LOG_ERROR2("symbol:%s HIS_L2_MMPEX GoogleProtoBuffer Error length:%d", 
+      LOG_ERROR2("symbol:%s HIS_L2_MMPEX GoogleProtoBuffer Error length:%d",
                  static_->symbol_, in_data.length());
     }
     index++;
@@ -442,11 +453,11 @@ void FlwHisStk::WriteOrderStat(HIS_DATA_TYPE data_type) {
     order_state->add_vol(data->data_.vol_[1].GetValue());
     std::string in_data;
     bool r = l2_order.SerializeToString(&in_data);
-    
+
     if (r && !in_data.empty()) {    //写入文件
       WriteGoogleFile(data->time_, data_type, in_data);
     } else {
-      LOG_ERROR2("symbol:%s HIS_L2_MMPEX GoogleProtoBuffer Error length:%d", 
+      LOG_ERROR2("symbol:%s HIS_L2_MMPEX GoogleProtoBuffer Error length:%d",
                  static_->symbol_, in_data.length());
     }
 
@@ -465,12 +476,12 @@ void FlwHisStk::WriteIOPV(HIS_DATA_TYPE data_type) {
     iopv.set_value(data->value_);
     std::string in_data;
     bool r = iopv.SerializeToString(&in_data);
-    
+
     if (r && !in_data.length()) {    //写入文件
       WriteGoogleFile(data->time_, data_type, in_data);
     } else {
-      LOG_ERROR2("symbol:%s HIS_L2_MMPEX GoogleProtoBuffer Error length:%d", 
-                 static_->symbol_,in_data.length());
+      LOG_ERROR2("symbol:%s HIS_L2_MMPEX GoogleProtoBuffer Error length:%d",
+                 static_->symbol_, in_data.length());
     }
     index++;
     data_ptr_ = data_ptr_ + data_head_->item_size_;
@@ -487,11 +498,11 @@ void FlwHisStk::WriteMatuYld(HIS_DATA_TYPE data_type) {
     matu_yld.set_value(data->value_);
     std::string in_data;
     bool r = matu_yld.SerializeToString(&in_data);
-    
+
     if (r && !in_data.empty()) {    //写入文件
       WriteGoogleFile(data->time_, data_type, in_data);
     } else {
-      LOG_ERROR2("symbol:%s HIS_L2_MMPEX GoogleProtoBuffer Error length:%d", 
+      LOG_ERROR2("symbol:%s HIS_L2_MMPEX GoogleProtoBuffer Error length:%d",
                  static_->symbol_, in_data.length());
     }
     index++;
@@ -507,11 +518,10 @@ void FlwHisStk::WriteGoogleFile(const int64 unix_time, HIS_DATA_TYPE data_type,
   packet::DataOutPacket out(true, packet_length);
   out.Write16(packet_length);
   out.WriteData(content.c_str(), content.length());
-  std::string dir = out_dir_+ "/" + std::string(s_stk_type_en[static_->ctype_])
-      + "/" + std::string(market_mtk_)
-      + "/" + std::string(static_->symbol_)
-      + "/" + std::string(g_his_data_type_en[data_type])
-      + "/" + base::BasicUtil::StringUtil::Int64ToString(local_time->tm_year + 1900)
+  std::string dir = out_dir_ + "/" + std::string(s_stk_type_en[static_->ctype_])
+      + "/" + std::string(market_mtk_) + "/" + std::string(static_->symbol_)
+      + "/" + std::string(g_his_data_type_en[data_type]) + "/"
+      + base::BasicUtil::StringUtil::Int64ToString(local_time->tm_year + 1900)
       + "/"
       + base::BasicUtil::StringUtil::Int64ToString(local_time->tm_mon + 1);
 //+ "/" + base::BasicUtil::StringUtil::Int64ToString(day);
@@ -523,8 +533,8 @@ void FlwHisStk::WriteGoogleFile(const int64 unix_time, HIS_DATA_TYPE data_type,
       + base::BasicUtil::StringUtil::Int64ToString(local_time->tm_year + 1900)
       + base::BasicUtil::StringUtil::Int64ToString(local_time->tm_mon + 1)
       + base::BasicUtil::StringUtil::Int64ToString(local_time->tm_mday);
-  std::string temp_path = current_dir_path.value() + "/" + file_name  +  std::string(g_his_data_suffix[data_type])
-                + ".chspb";
+  std::string temp_path = current_dir_path.value() + "/" + file_name
+      + std::string(g_his_data_suffix[data_type]) + ".chspb";
 
   file::FilePath temp_file_path(temp_path);
   //檢測是否存在
@@ -567,9 +577,10 @@ void FlwHisStk::ProcessTypeData(fc_data::FlwHisData* flw_data) {
 
     src_buf.resize(0);
   }
-  
-    //存储静态数据
-    WriteStatic(flw_data->his_data_type_, market_date_/10000, (market_date_/100)%100, market_date_%100);
+
+  //存储静态数据
+  WriteStatic(flw_data->his_data_type_, market_date_ / 10000,
+              (market_date_ / 100) % 100, market_date_ % 100);
   switch (flw_data->his_data_type_) {
     case _DYNA_DATA:
       WriteDynaData(flw_data->his_data_type_);

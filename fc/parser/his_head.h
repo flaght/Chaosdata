@@ -74,7 +74,6 @@ struct UINT24 {
 #define  MKT_Z$   0x245A //'$Z'  //深圳全队列市场
 #define  MKT_TE   0x4554 //'ET'  // 台湾柜买中心
 
-
 //动态行情
 struct STK_DYNA {
   uint16 stk_id_;			//股票ID
@@ -327,7 +326,6 @@ enum HISHD_COMPRESS_TYPE {
 extern const char* g_data_compress_type[CT_MASKCOUNT];
 
 extern const char* g_his_data_suffix[HIS_DATA_TYPE_COUNT];
-
 
 extern const char* g_his_data_type[HIS_DATA_TYPE_COUNT];
 

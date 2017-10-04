@@ -5,18 +5,18 @@
 const char* g_his_data_type[HIS_DATA_TYPE_COUNT] = { "静态数据", "动态行情",
     "level2扩展买卖盘", "level2逐笔成交", "委托队列", "动态净值估值", "债券到期收益率" };
 
-const char* g_his_data_type_en[HIS_DATA_TYPE_COUNT] = {"STATIC", "DYNA",
-    "L2_MMPEX","L2_REPORT","L2_ORDER_STAT","HIS_IOPV","MatuYld"};
+const char* g_his_data_type_en[HIS_DATA_TYPE_COUNT] = { "STATIC", "DYNA",
+    "L2_MMPEX", "L2_REPORT", "L2_ORDER_STAT", "HIS_IOPV", "MatuYld" };
 
-const char* g_his_data_suffix[HIS_DATA_TYPE_COUNT] = {".stc",".dya",
-    ".l2mx",".l2rt",".l2ost",".iopv",".mad"};
+const char* g_his_data_suffix[HIS_DATA_TYPE_COUNT] = { ".stc", ".dya", ".l2mx",
+    ".l2rt", ".l2ost", ".iopv", ".mad" };
 
 const char* s_stk_type[] = { "指数", "股票", "基金", "债券", "其它股票", "选择权", "外汇", "期货",
     "期指", "认购证", "ETF", "LOF", "可转债", "信托", "权证", "回购", "商品现货" };
 
-const char* s_stk_type_en[] = { "index", "stock", "fund", "bond", "other_stock", "option",
-      "exchange","future","ftr_idx", "RGZ", "ETF", "LOF", "cov_bond",
-      "trust", "warrant", "repo", "comm" };
+const char* s_stk_type_en[] = { "index", "stock", "fund", "bond", "other_stock",
+    "option", "exchange", "future", "ftr_idx", "RGZ", "ETF", "LOF", "cov_bond",
+    "trust", "warrant", "repo", "comm" };
 
 const char* g_data_compress_type[CT_MASKCOUNT] = { "无压缩", "ZLIB压缩" };
 

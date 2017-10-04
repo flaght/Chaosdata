@@ -12,15 +12,18 @@ FlwHisFile::FlwHisFile(std::string& base_dir)
       guid_(NULL),
       file_head_(NULL),
       file_path_(NULL),
-      out_base_dir_(base_dir){
+      out_base_dir_(base_dir) {
 }
 
 FlwHisFile::~FlwHisFile() {
-    while(his_stk_list_.size()){
-        fc_data::FlwHisStk* flw_stk = his_stk_list_.front();
-        his_stk_list_.pop_front();
-        if(flw_stk){delete flw_stk; flw_stk = NULL;}
+  while (his_stk_list_.size()) {
+    fc_data::FlwHisStk* flw_stk = his_stk_list_.front();
+    his_stk_list_.pop_front();
+    if (flw_stk) {
+      delete flw_stk;
+      flw_stk = NULL;
     }
+  }
 }
 
 int FlwHisFile::ProcessHisSTK() {
@@ -30,12 +33,16 @@ int FlwHisFile::ProcessHisSTK() {
     //printf("symbol %s symbol type %s price_digit %d\n",flw_stk->static_->symbol_,
     //  s_stk_type[flw_stk->static_->ctype_],flw_stk->static_->price_digit_);
     flw_stk->ProcessHisTypeList();
-    if(flw_stk) {delete flw_stk; flw_stk = NULL;}
+    if (flw_stk) {
+      delete flw_stk;
+      flw_stk = NULL;
+    }
   }
 
 }
 
-int FlwHisFile::OpenHisFile2Read(const std::string& file_path, uint32 trade_date) {
+int FlwHisFile::OpenHisFile2Read(const std::string& file_path,
+                                 uint32 trade_date) {
   file_path_ = new file::FilePath(file_path);
   std::string content;
   bool r = file::ReadFileToString(*file_path_, &content);
@@ -56,7 +63,8 @@ int FlwHisFile::OpenHisFile2Read(const std::string& file_path, uint32 trade_date
   fc_data::FlwHisStk* last_flw = NULL;
   for (int i = 0; i < file_head_->stk_count_; i++) {
     fc_data::FlwHisStk* flw = new fc_data::FlwHisStk(out_base_dir_);
-    if (!flw->LoadStk(his_data,file_head_->market_date_, file_head_->market_)) {
+    if (!flw->LoadStk(his_data, file_head_->market_date_,
+                      file_head_->market_)) {
       delete flw;
       return -1;
     }
