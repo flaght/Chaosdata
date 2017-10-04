@@ -158,7 +158,7 @@ void FlwHisStk::WriteStatic(HIS_DATA_TYPE data_type, const int32 year,
   symbol_static.set_ctype(g_gpb_data_type[static_->ctype_]);
   symbol_static.set_market_mtk(market_mtk_);
   symbol_static.set_market_date(10000 * year + month * 100 + day);
-  symbol_static.set_his_count(his_data_count_);
+  symbol_static.set_his_count((*his_data_count_));
   symbol_static.set_csub_type(GetSymbolSubType(static_ex_->csub_type_));
   symbol_static.set_price_digit(static_->price_digit_);
   symbol_static.set_vol_unit(static_->vol_unit_);
@@ -260,15 +260,9 @@ void FlwHisStk::WriteStatic(HIS_DATA_TYPE data_type, const int32 year,
   std::string in_data;
   bool r = symbol_static.SerializeToString(&in_data);
 
-  if (r && !in_data.empty()) {    //写入文件
-    WriteGoogleFile(dyna_data->time_, data_type, in_data);
-  } else {
-    LOG_ERROR2("symbol:%s DYNA GoogleProtoBuffer Error length:%d",
-               static_->symbol_, in_data.length());
-  }
-  /*std::string dir = out_dir_ + "/" + std::string(s_stk_type_en[static_->ctype_])
+   std::string dir = out_dir_ + "/" + std::string(s_stk_type_en[static_->ctype_])
    + "/" + std::string(market_mtk_) + "/" + std::string(static_->symbol_)
-   + "/" + std::string(g_his_data_type_en[data_type])
+   + "/" + std::string(g_his_data_type_en[0])
    + "/" + base::BasicUtil::StringUtil::Int64ToString(year)
    + "/" + base::BasicUtil::StringUtil::Int64ToString(month);
 
@@ -286,7 +280,7 @@ void FlwHisStk::WriteStatic(HIS_DATA_TYPE data_type, const int32 year,
    file::FilePath temp_file_path(temp_path);
    //檢測是否存在
    file::DirectoryExists(temp_file_path);
-   file::WriteFile(temp_file_path, in_data.c_str(), in_data.length());*/
+   file::WriteFile(temp_file_path, in_data.c_str(), in_data.length());
 }
 
 void FlwHisStk::WriteDynaData(HIS_DATA_TYPE data_type) {

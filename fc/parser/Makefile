@@ -15,7 +15,7 @@
 # Points to the root of Google Test, relative to where this file is.
 # Remember to tweak this if you move this file.
 
-LIB_DIR = ./../../../library/mylib
+LIB_DIR = ./../../../../library/mylib
 
 # Where to find user code.
 USER_DIR = $(LIB_DIR)/base
@@ -29,7 +29,7 @@ LINK_PATHS = -L./ -L/usr/local/libmemcached-1.0.7/lib/  -L/usr/lib64/mysql
 # Flags passed to the preprocessor.
 # Set Google Test's header directory as a system directory, such that
 # the compiler doesn't generate warnings in Google Test headers.
-CPPFLAGS += -isystem -D_DEBUG -DDEBUG -DUSER_LOG_ERROR -DUSER_LOG_MSG -DUSER_LOG_DEBUG
+CPPFLAGS += -isystem -D_DEBUG -DDEBUG -DUSR_LOG_ERROR -DUSR_LOG_MSG -DUSR_LOG_DEBUG
 
 # Flags passed to the C++ compiler.
 CXXFLAGS += -g  -Wextra -pthread
@@ -109,9 +109,12 @@ symbol_l2_report.pb.o : ./../proto/symbol_l2_report.pb.cc $(ALL_HEADERS)
 symbol_static.pb.o : ./../proto/symbol_static.pb.cc $(ALL_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./../proto/symbol_static.pb.cc $(INCLUDE_PATHS)
 
+symbol_pos_index.pb.o : ./../proto/symbol_pos_index.pb.cc $(ALL_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ./../proto/symbol_pos_index.pb.cc $(INCLUDE_PATHS)
+
 fc_parser : main.o flw_his_data.o flw_his_file.o flw_his_stk.o mword.o stk_datacps.o\
 	symbol_dynam_market.pb.o symbol_his_iopv.pb.o symbol_his_matu_yld.pb.o symbol_l2_mmpex.pb.o\
-	symbol_l2_order_state.pb.o symbol_l2_report.pb.o symbol_static.pb.o\
-	$(LIB_DIR)/base/lib/mybase.a $(LIB_DIR)/third_party/lib/libhiredis.a $(LIB_DIR)/third_party/lib/librdkafka.a /usr/local/lib/lib/libiconv.a
+	symbol_l2_order_state.pb.o symbol_l2_report.pb.o symbol_static.pb.o symbol_pos_index.pb.o\
+	$(LIB_DIR)/base/lib/mybase.a $(LIB_DIR)/third_party/lib/libhiredis.a $(LIB_DIR)/third_party/lib/librdkafka.a /usr/local/lib/libiconv.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LINK_PATHS) -lpthread -lprotobuf -lexpat -lrt -ldl -lmysqlclient \
 	$^ -o $@
