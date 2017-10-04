@@ -143,22 +143,31 @@ class SymbolPosIndex : public ::google::protobuf::Message /* @@protoc_insertion_
 
   // accessors -------------------------------------------------------
 
-  // required uint32 start_pos = 1;
+  // required uint64 time_index = 1;
+  bool has_time_index() const;
+  void clear_time_index();
+  static const int kTimeIndexFieldNumber = 1;
+  ::google::protobuf::uint64 time_index() const;
+  void set_time_index(::google::protobuf::uint64 value);
+
+  // required uint32 start_pos = 2;
   bool has_start_pos() const;
   void clear_start_pos();
-  static const int kStartPosFieldNumber = 1;
+  static const int kStartPosFieldNumber = 2;
   ::google::protobuf::uint32 start_pos() const;
   void set_start_pos(::google::protobuf::uint32 value);
 
-  // required uint32 end_pos = 2;
+  // required uint32 end_pos = 3;
   bool has_end_pos() const;
   void clear_end_pos();
-  static const int kEndPosFieldNumber = 2;
+  static const int kEndPosFieldNumber = 3;
   ::google::protobuf::uint32 end_pos() const;
   void set_end_pos(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:chaos_data.SymbolPosIndex)
  private:
+  void set_has_time_index();
+  void clear_has_time_index();
   void set_has_start_pos();
   void clear_has_start_pos();
   void set_has_end_pos();
@@ -170,6 +179,7 @@ class SymbolPosIndex : public ::google::protobuf::Message /* @@protoc_insertion_
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
   mutable int _cached_size_;
+  ::google::protobuf::uint64 time_index_;
   ::google::protobuf::uint32 start_pos_;
   ::google::protobuf::uint32 end_pos_;
   friend struct protobuf_symbol_5fpos_5findex_2eproto::TableStruct;
@@ -186,15 +196,39 @@ class SymbolPosIndex : public ::google::protobuf::Message /* @@protoc_insertion_
 #endif  // __GNUC__
 // SymbolPosIndex
 
-// required uint32 start_pos = 1;
-inline bool SymbolPosIndex::has_start_pos() const {
+// required uint64 time_index = 1;
+inline bool SymbolPosIndex::has_time_index() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void SymbolPosIndex::set_has_start_pos() {
+inline void SymbolPosIndex::set_has_time_index() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void SymbolPosIndex::clear_has_start_pos() {
+inline void SymbolPosIndex::clear_has_time_index() {
   _has_bits_[0] &= ~0x00000001u;
+}
+inline void SymbolPosIndex::clear_time_index() {
+  time_index_ = GOOGLE_ULONGLONG(0);
+  clear_has_time_index();
+}
+inline ::google::protobuf::uint64 SymbolPosIndex::time_index() const {
+  // @@protoc_insertion_point(field_get:chaos_data.SymbolPosIndex.time_index)
+  return time_index_;
+}
+inline void SymbolPosIndex::set_time_index(::google::protobuf::uint64 value) {
+  set_has_time_index();
+  time_index_ = value;
+  // @@protoc_insertion_point(field_set:chaos_data.SymbolPosIndex.time_index)
+}
+
+// required uint32 start_pos = 2;
+inline bool SymbolPosIndex::has_start_pos() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void SymbolPosIndex::set_has_start_pos() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void SymbolPosIndex::clear_has_start_pos() {
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void SymbolPosIndex::clear_start_pos() {
   start_pos_ = 0u;
@@ -210,15 +244,15 @@ inline void SymbolPosIndex::set_start_pos(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:chaos_data.SymbolPosIndex.start_pos)
 }
 
-// required uint32 end_pos = 2;
+// required uint32 end_pos = 3;
 inline bool SymbolPosIndex::has_end_pos() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
+  return (_has_bits_[0] & 0x00000004u) != 0;
 }
 inline void SymbolPosIndex::set_has_end_pos() {
-  _has_bits_[0] |= 0x00000002u;
+  _has_bits_[0] |= 0x00000004u;
 }
 inline void SymbolPosIndex::clear_has_end_pos() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000004u;
 }
 inline void SymbolPosIndex::clear_end_pos() {
   end_pos_ = 0u;

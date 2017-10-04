@@ -53,13 +53,15 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_ATTRIBUTE_SECTION
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SymbolPosIndex, time_index_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SymbolPosIndex, start_pos_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SymbolPosIndex, end_pos_),
   0,
   1,
+  2,
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, 7, sizeof(SymbolPosIndex)},
+  { 0, 8, sizeof(SymbolPosIndex)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -104,12 +106,12 @@ namespace {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\026symbol_pos_index.proto\022\nchaos_data\"4\n\016"
-      "SymbolPosIndex\022\021\n\tstart_pos\030\001 \002(\r\022\017\n\007end"
-      "_pos\030\002 \002(\r"
+      "\n\026symbol_pos_index.proto\022\nchaos_data\"H\n\016"
+      "SymbolPosIndex\022\022\n\ntime_index\030\001 \002(\004\022\021\n\tst"
+      "art_pos\030\002 \002(\r\022\017\n\007end_pos\030\003 \002(\r"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 90);
+      descriptor, 110);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "symbol_pos_index.proto", &protobuf_RegisterTypes);
 }
@@ -132,6 +134,7 @@ struct StaticDescriptorInitializer {
 // ===================================================================
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int SymbolPosIndex::kTimeIndexFieldNumber;
 const int SymbolPosIndex::kStartPosFieldNumber;
 const int SymbolPosIndex::kEndPosFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
@@ -150,17 +153,17 @@ SymbolPosIndex::SymbolPosIndex(const SymbolPosIndex& from)
       _has_bits_(from._has_bits_),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::memcpy(&start_pos_, &from.start_pos_,
+  ::memcpy(&time_index_, &from.time_index_,
     static_cast<size_t>(reinterpret_cast<char*>(&end_pos_) -
-    reinterpret_cast<char*>(&start_pos_)) + sizeof(end_pos_));
+    reinterpret_cast<char*>(&time_index_)) + sizeof(end_pos_));
   // @@protoc_insertion_point(copy_constructor:chaos_data.SymbolPosIndex)
 }
 
 void SymbolPosIndex::SharedCtor() {
   _cached_size_ = 0;
-  ::memset(&start_pos_, 0, static_cast<size_t>(
+  ::memset(&time_index_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&end_pos_) -
-      reinterpret_cast<char*>(&start_pos_)) + sizeof(end_pos_));
+      reinterpret_cast<char*>(&time_index_)) + sizeof(end_pos_));
 }
 
 SymbolPosIndex::~SymbolPosIndex() {
@@ -201,10 +204,10 @@ void SymbolPosIndex::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 3u) {
-    ::memset(&start_pos_, 0, static_cast<size_t>(
+  if (cached_has_bits & 7u) {
+    ::memset(&time_index_, 0, static_cast<size_t>(
         reinterpret_cast<char*>(&end_pos_) -
-        reinterpret_cast<char*>(&start_pos_)) + sizeof(end_pos_));
+        reinterpret_cast<char*>(&time_index_)) + sizeof(end_pos_));
   }
   _has_bits_.Clear();
   _internal_metadata_.Clear();
@@ -220,10 +223,24 @@ bool SymbolPosIndex::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required uint32 start_pos = 1;
+      // required uint64 time_index = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
+          set_has_time_index();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
+                 input, &time_index_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required uint32 start_pos = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
           set_has_start_pos();
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -234,10 +251,10 @@ bool SymbolPosIndex::MergePartialFromCodedStream(
         break;
       }
 
-      // required uint32 end_pos = 2;
-      case 2: {
+      // required uint32 end_pos = 3;
+      case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
           set_has_end_pos();
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -275,14 +292,19 @@ void SymbolPosIndex::SerializeWithCachedSizes(
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  // required uint32 start_pos = 1;
+  // required uint64 time_index = 1;
   if (cached_has_bits & 0x00000001u) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->start_pos(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->time_index(), output);
   }
 
-  // required uint32 end_pos = 2;
+  // required uint32 start_pos = 2;
   if (cached_has_bits & 0x00000002u) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->end_pos(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->start_pos(), output);
+  }
+
+  // required uint32 end_pos = 3;
+  if (cached_has_bits & 0x00000004u) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->end_pos(), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -300,14 +322,19 @@ void SymbolPosIndex::SerializeWithCachedSizes(
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  // required uint32 start_pos = 1;
+  // required uint64 time_index = 1;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->start_pos(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->time_index(), target);
   }
 
-  // required uint32 end_pos = 2;
+  // required uint32 start_pos = 2;
   if (cached_has_bits & 0x00000002u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->end_pos(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->start_pos(), target);
+  }
+
+  // required uint32 end_pos = 3;
+  if (cached_has_bits & 0x00000004u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->end_pos(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -322,15 +349,22 @@ size_t SymbolPosIndex::RequiredFieldsByteSizeFallback() const {
 // @@protoc_insertion_point(required_fields_byte_size_fallback_start:chaos_data.SymbolPosIndex)
   size_t total_size = 0;
 
+  if (has_time_index()) {
+    // required uint64 time_index = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->time_index());
+  }
+
   if (has_start_pos()) {
-    // required uint32 start_pos = 1;
+    // required uint32 start_pos = 2;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->start_pos());
   }
 
   if (has_end_pos()) {
-    // required uint32 end_pos = 2;
+    // required uint32 end_pos = 3;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->end_pos());
@@ -347,13 +381,18 @@ size_t SymbolPosIndex::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  if (((_has_bits_[0] & 0x00000003) ^ 0x00000003) == 0) {  // All required fields are present.
-    // required uint32 start_pos = 1;
+  if (((_has_bits_[0] & 0x00000007) ^ 0x00000007) == 0) {  // All required fields are present.
+    // required uint64 time_index = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->time_index());
+
+    // required uint32 start_pos = 2;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->start_pos());
 
-    // required uint32 end_pos = 2;
+    // required uint32 end_pos = 3;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->end_pos());
@@ -391,11 +430,14 @@ void SymbolPosIndex::MergeFrom(const SymbolPosIndex& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 3u) {
+  if (cached_has_bits & 7u) {
     if (cached_has_bits & 0x00000001u) {
-      start_pos_ = from.start_pos_;
+      time_index_ = from.time_index_;
     }
     if (cached_has_bits & 0x00000002u) {
+      start_pos_ = from.start_pos_;
+    }
+    if (cached_has_bits & 0x00000004u) {
       end_pos_ = from.end_pos_;
     }
     _has_bits_[0] |= cached_has_bits;
@@ -417,7 +459,7 @@ void SymbolPosIndex::CopyFrom(const SymbolPosIndex& from) {
 }
 
 bool SymbolPosIndex::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+  if ((_has_bits_[0] & 0x00000007) != 0x00000007) return false;
   return true;
 }
 
@@ -427,6 +469,7 @@ void SymbolPosIndex::Swap(SymbolPosIndex* other) {
 }
 void SymbolPosIndex::InternalSwap(SymbolPosIndex* other) {
   using std::swap;
+  swap(time_index_, other->time_index_);
   swap(start_pos_, other->start_pos_);
   swap(end_pos_, other->end_pos_);
   swap(_has_bits_[0], other->_has_bits_[0]);
@@ -442,15 +485,39 @@ void SymbolPosIndex::InternalSwap(SymbolPosIndex* other) {
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
 // SymbolPosIndex
 
-// required uint32 start_pos = 1;
-bool SymbolPosIndex::has_start_pos() const {
+// required uint64 time_index = 1;
+bool SymbolPosIndex::has_time_index() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-void SymbolPosIndex::set_has_start_pos() {
+void SymbolPosIndex::set_has_time_index() {
   _has_bits_[0] |= 0x00000001u;
 }
-void SymbolPosIndex::clear_has_start_pos() {
+void SymbolPosIndex::clear_has_time_index() {
   _has_bits_[0] &= ~0x00000001u;
+}
+void SymbolPosIndex::clear_time_index() {
+  time_index_ = GOOGLE_ULONGLONG(0);
+  clear_has_time_index();
+}
+::google::protobuf::uint64 SymbolPosIndex::time_index() const {
+  // @@protoc_insertion_point(field_get:chaos_data.SymbolPosIndex.time_index)
+  return time_index_;
+}
+void SymbolPosIndex::set_time_index(::google::protobuf::uint64 value) {
+  set_has_time_index();
+  time_index_ = value;
+  // @@protoc_insertion_point(field_set:chaos_data.SymbolPosIndex.time_index)
+}
+
+// required uint32 start_pos = 2;
+bool SymbolPosIndex::has_start_pos() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void SymbolPosIndex::set_has_start_pos() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void SymbolPosIndex::clear_has_start_pos() {
+  _has_bits_[0] &= ~0x00000002u;
 }
 void SymbolPosIndex::clear_start_pos() {
   start_pos_ = 0u;
@@ -466,15 +533,15 @@ void SymbolPosIndex::set_start_pos(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:chaos_data.SymbolPosIndex.start_pos)
 }
 
-// required uint32 end_pos = 2;
+// required uint32 end_pos = 3;
 bool SymbolPosIndex::has_end_pos() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
+  return (_has_bits_[0] & 0x00000004u) != 0;
 }
 void SymbolPosIndex::set_has_end_pos() {
-  _has_bits_[0] |= 0x00000002u;
+  _has_bits_[0] |= 0x00000004u;
 }
 void SymbolPosIndex::clear_has_end_pos() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000004u;
 }
 void SymbolPosIndex::clear_end_pos() {
   end_pos_ = 0u;
