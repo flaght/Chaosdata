@@ -1,0 +1,4 @@
+package chaos_data; message SymbolPosIndex {
+    required uint32 start_pos = 1; //开始位置
+    required uint32 end_pos = 2;  //结束位置
+}
