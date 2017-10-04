@@ -543,15 +543,24 @@ void FlwHisStk::WriteMatuYld(HIS_DATA_TYPE data_type) {
 
 void FlwHisStk::SetIndexPos(int32 tt_time, const int32 packet_length) {
   //写入序列文件
-  if (last_pos_index_.time_index() != (tt_time / 60) * 60) {
+
+  /*LOG_MSG2("=======>time:%d,packet_length %d, start_pos:%d,end_pos:%d",
+          last_pos_index_.time_index(),
+           packet_length, last_pos_index_.start_pos(),
+          last_pos_index_.end_pos());*/
+  int32 s_time = (tt_time / 60) * 60;
+  if (last_pos_index_.time_index() != s_time) {
     if (last_pos_index_.end_pos() != 0)
       WriteIndexPosFile(tt_time);
-    last_pos_index_.set_time_index((tt_time / 60) * 60);
+    last_pos_index_.set_time_index(s_time);
     last_pos_index_.set_start_pos(last_pos_index_.end_pos());
     last_pos_index_.set_end_pos(last_pos_index_.start_pos() + packet_length);
   } else {
     last_pos_index_.set_end_pos(last_pos_index_.end_pos() + packet_length);
   }
+ /* LOG_MSG2("time:%d,packet_length %d, start_pos:%d,end_pos:%d<======",
+          last_pos_index_.time_index(),packet_length, last_pos_index_.start_pos(),
+          last_pos_index_.end_pos());*/
 }
 
 void FlwHisStk::WriteIndexPosFile(const int64 unix_time) {
