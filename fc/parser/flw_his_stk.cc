@@ -281,7 +281,7 @@ void FlwHisStk::WriteStatic(HIS_DATA_TYPE data_type, const int32 year,
   file::FilePath temp_file_path(temp_path);
   //檢測是否存在
   file::DirectoryExists(temp_file_path);
-  file::WriteFile(temp_file_path, in_data.c_str(), in_data.length());
+  int32 bytes_writen = file::WriteFile(temp_file_path, in_data.c_str(), in_data.length());
 }
 
 void FlwHisStk::WriteDynaData(HIS_DATA_TYPE data_type) {
@@ -567,7 +567,10 @@ void FlwHisStk::WriteIndexPosFile(const int64 unix_time) {
   std::string in_data;
   bool r = last_pos_index_.SerializeToString(&in_data);
   if (r && !in_data.empty()) {    //写入文件
-    WriteGoogleFile(unix_time, "INDEXPOS",".ipos",in_data);
+    WriteGoogleFile(unix_time, "INDEXPOS",".ipos",in_data); 
+    //LOG_MSG2("symbol:%s,time:%d,start_pos:%d,end_pos:%d",
+      //       static_->symbol_,unix_time,last_pos_index_.start_pos(),
+        //    last_pos_index_.end_pos());
   } else {
     LOG_ERROR2("symbol:%s IndexPos GoogleProtoBuffer Error length:%d",
                static_->symbol_, in_data.length());
@@ -605,8 +608,8 @@ int16 FlwHisStk::WriteGoogleFile(const int64 unix_time,const char* his_data_type
   file::FilePath temp_file_path(temp_path);
   //檢測是否存在
   file::DirectoryExists(temp_file_path);
-  file::WriteFile(temp_file_path, content.c_str(), content.length());
-  return packet_length;
+  int32 bytes_writen = file::WriteFile(temp_file_path, out.GetData(), out.GetLength());
+  return bytes_writen;
 }
 
 void FlwHisStk::ProcessTypeData(fc_data::FlwHisData* flw_data) {
