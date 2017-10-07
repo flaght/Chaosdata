@@ -576,7 +576,7 @@ void FlwHisStk::WriteIndexPosFile(const int64 unix_time,
   std::string in_data;
   bool r = last_pos_index_.SerializeToString(&in_data);
   if (r && !in_data.empty()) {    //写入文件
-    WriteGoogleFile(unix_time, g_his_data_suffix[data_type], ".ipos", in_data);
+    WriteGoogleFile(unix_time, g_his_data_type_en[data_type], ".ipos", in_data);
     //LOG_MSG2("symbol:%s,time:%d,start_pos:%d,end_pos:%d",
     //       static_->symbol_,unix_time,last_pos_index_.start_pos(),
     //    last_pos_index_.end_pos());
@@ -584,11 +584,11 @@ void FlwHisStk::WriteIndexPosFile(const int64 unix_time,
     LOG_ERROR2("symbol:%s IndexPos GoogleProtoBuffer Error length:%d",
                static_->symbol_, in_data.length());
   }
-  chaos_data::SymbolPosIndex ll_pos_index;
-  r = ll_pos_index.ParseFromString(in_data);
+  //chaos_data::SymbolPosIndex ll_pos_index;
+  //r = ll_pos_index.ParseFromString(in_data);
 
-  printf("time:%d,start_pos:%d,end_pos:%d\n", ll_pos_index.time_index(),
-         ll_pos_index.start_pos(), ll_pos_index.end_pos());
+  //printf("time:%d,start_pos:%d,end_pos:%d\n", ll_pos_index.time_index(),
+    //     ll_pos_index.start_pos(), ll_pos_index.end_pos());
 }
 
 int16 FlwHisStk::WriteGoogleFile(const int64 unix_time,
