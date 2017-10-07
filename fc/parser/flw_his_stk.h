@@ -74,7 +74,8 @@ class FlwHisStk {
   void ProcessTypeData(fc_data::FlwHisData* flw_data);
 
   //写入静态数据类型
-  void WriteStatic(HIS_DATA_TYPE data_type, const int32 year, const int32 month, const int32 day);
+  void WriteStatic(HIS_DATA_TYPE data_type, const int32 year, const int32 month,
+                   const int32 day);
 
   //google protobuf 写入
   void GoogleProtobufWriteFile(const char* symbol, HIS_DATA_TYPE data_type,
@@ -83,7 +84,8 @@ class FlwHisStk {
                                const void* data_ptr);
 
   //设置索引
-  void SetIndexPos(const int32 tt_time, const int32 packet_length);
+  void SetIndexPos(const int32 tt_time, const int32 packet_length,
+                   HIS_DATA_TYPE data_type);
 
  private:
   void WriteDynaData(HIS_DATA_TYPE data_type);
@@ -92,9 +94,10 @@ class FlwHisStk {
   void WriteOrderStat(HIS_DATA_TYPE data_type);
   void WriteIOPV(HIS_DATA_TYPE data_type);
   void WriteMatuYld(HIS_DATA_TYPE data_type);
-  void WriteIndexPosFile(const int64 unit_time);
-  int16 WriteGoogleFile(const int64 unix_time, const char* his_data_type,const char* his_data_suffix,
-                       const std::string& content);
+  void WriteIndexPosFile(const int64 unit_time, HIS_DATA_TYPE data_type);
+  int16 WriteGoogleFile(const int64 unix_time, const char* his_data_type,
+                        const char* his_data_suffix,
+                        const std::string& content);
 
   chaos_data::SymbolStatic_SYMBOL_SUBTYPE GetSymbolSubType(const char sub_type);
   chaos_data::SymbolStatic_SYMBOL_SP GetSymbolSP(const char sp);
