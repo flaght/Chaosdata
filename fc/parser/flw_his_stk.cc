@@ -575,7 +575,13 @@ void FlwHisStk::WriteIndexPosFile(const int64 unix_time) {
     LOG_ERROR2("symbol:%s IndexPos GoogleProtoBuffer Error length:%d",
                static_->symbol_, in_data.length());
   }
+    chaos_data::SymbolPosIndex ll_pos_index;
+    r = ll_pos_index.ParseFromString(in_data);
 
+    printf("time:%d,start_pos:%d,end_pos:%d\n",
+            ll_pos_index.time_index(),
+            ll_pos_index.start_pos(),
+            ll_pos_index.end_pos());
 }
 
 int16 FlwHisStk::WriteGoogleFile(const int64 unix_time,const char* his_data_type,
