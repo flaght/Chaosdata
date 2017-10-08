@@ -138,6 +138,18 @@ bool FlwHisStk::GetDataTypeList(std::vector<int>& list) {
   return true;
 }
 
+char* FlwHisStk::SecType(const char* type) {
+  if(type == "SC")
+    return "SHFE";
+  else if(type == "DC")
+    return "DCE";
+  else if (type == "ZC")
+    return "CZCE";
+  else
+    return "unkown";
+}
+
+
 bool FlwHisStk::ProcessHisTypeList() {
   if (NULL == static_)
     return false;
@@ -156,7 +168,7 @@ void FlwHisStk::WriteStatic(HIS_DATA_TYPE data_type, const int32 year,
   symbol_static.set_symbol(static_->symbol_);
   symbol_static.set_name(static_->name_);
   symbol_static.set_ctype(g_gpb_data_type[static_->ctype_]);
-  symbol_static.set_market_mtk(market_mtk_);
+  symbol_static.set_market_mtk(SecType(market_mtk_));
   symbol_static.set_market_date(10000 * year + month * 100 + day);
   symbol_static.set_his_count((*his_data_count_));
   symbol_static.set_csub_type(GetSymbolSubType(static_ex_->csub_type_));
@@ -261,7 +273,7 @@ void FlwHisStk::WriteStatic(HIS_DATA_TYPE data_type, const int32 year,
   bool r = symbol_static.SerializeToString(&in_data);
 
   std::string dir = out_dir_ + "/" + std::string(s_stk_type_en[static_->ctype_])
-      + "/" + std::string(market_mtk_) + "/" + std::string(static_->symbol_)
+      + "/" + std::string(SecType(market_mtk_)) + "/" + std::string(static_->symbol_)
       + "/" + std::string(g_his_data_type_en[0]) + "/"
       + base::BasicUtil::StringUtil::Int64ToString(year) + "/"
       + base::BasicUtil::StringUtil::Int64ToString(month);
@@ -270,7 +282,7 @@ void FlwHisStk::WriteStatic(HIS_DATA_TYPE data_type, const int32 year,
   if (!file::DirectoryExists(current_dir_path))
     file::CreateDirectory(current_dir_path);
 
-  std::string file_name = std::string(market_mtk_) + "_"
+  std::string file_name = std::string(SecType(market_mtk_)) + "_"
       + std::string(static_->symbol_) + "_"
       + base::BasicUtil::StringUtil::Int64ToString(year)
       + base::BasicUtil::StringUtil::Int64ToString(month)
@@ -602,7 +614,7 @@ int16 FlwHisStk::WriteGoogleFile(const int64 unix_time,
   out.Write16(packet_length);
   out.WriteData(content.c_str(), content.length());
   std::string dir = out_dir_ + "/" + std::string(s_stk_type_en[static_->ctype_])
-      + "/" + std::string(market_mtk_) + "/" + std::string(static_->symbol_)
+      + "/" + std::string(SecType(market_mtk_)) + "/" + std::string(static_->symbol_)
       + "/" + std::string(his_data_type) + "/"
       + base::BasicUtil::StringUtil::Int64ToString(local_time->tm_year + 1900)
       + "/"
@@ -611,7 +623,7 @@ int16 FlwHisStk::WriteGoogleFile(const int64 unix_time,
   file::FilePath current_dir_path(dir);
   if (!file::DirectoryExists(current_dir_path))
     file::CreateDirectory(current_dir_path);
-  std::string file_name = std::string(market_mtk_) + "_"
+  std::string file_name = std::string(SecType(market_mtk_)) + "_"
       + std::string(static_->symbol_) + "_"
       + base::BasicUtil::StringUtil::Int64ToString(local_time->tm_year + 1900)
       + base::BasicUtil::StringUtil::Int64ToString(local_time->tm_mon + 1)

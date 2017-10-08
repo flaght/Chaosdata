@@ -87,6 +87,9 @@ class FlwHisStk {
   void SetIndexPos(const int32 tt_time, const int32 packet_length,
                    HIS_DATA_TYPE data_type);
 
+  //修改交易所
+  char* SecType(const char* type);
+
  private:
   void WriteDynaData(HIS_DATA_TYPE data_type);
   void WriteL2MMPEX(HIS_DATA_TYPE data_type);
