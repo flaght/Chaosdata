@@ -139,11 +139,11 @@ bool FlwHisStk::GetDataTypeList(std::vector<int>& list) {
 }
 
 char* FlwHisStk::SecType(const char* type) {
-  if(type == "SC")
+  if(std::string(type) == "SC")
     return "SHFE";
-  else if(type == "DC")
+  else if(std::string(type) == "DC")
     return "DCE";
-  else if (type == "ZC")
+  else if (std::string(type) == "ZC")
     return "CZCE";
   else
     return "unkown";
