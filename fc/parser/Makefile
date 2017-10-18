@@ -45,15 +45,15 @@ USER_HEADERS =  /usr/include/mysql/*.h \
                 $(USER_DIR)/*/*.h \
                 $(CUSTOM_THIRD_PATH)/hiredis/*.h \
 
-INCLUDE_PATHS = -I/usr/local/libmemcached-1.0.7/include \
-				-I$(THIRD_PATH)\
-				-I ../ \
-				-I/usr/local/include\
-				-I/usr/include/mysql\
-				-I$(USER_DIR)\
-				-I$(CUSTOM_THIRD_PATH)/hiredis\
-				-I$(CUSTOM_THIRD_PATH)/librdkafka/src\
-				-I$(CUSTOM_THIRD_PATH)\
+INCLUDE_PATHS = -isystem/usr/local/libmemcached-1.0.7/include \
+				-isystem$(THIRD_PATH)\
+				-isystem ../ \
+				-isystem/usr/local/include\
+				-isystem/usr/include/mysql\
+				-isystem$(USER_DIR)\
+				-isystem$(CUSTOM_THIRD_PATH)/hiredis\
+				-isystem$(CUSTOM_THIRD_PATH)/librdkafka/src\
+				-isystem$(CUSTOM_THIRD_PATH)\
 
 
 # House-keeping build targets.

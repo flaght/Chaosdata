@@ -10,7 +10,8 @@
 #include "basic/basictypes.h"
 #include "mword.h"
 
-#pragma pack(push)
+//#pragma pack(push)
+//#pragma pack (1)
 #pragma pack (1)
 struct GUID {
   uint32 data1_;
@@ -18,11 +19,13 @@ struct GUID {
   uint16 data3_;
   uint8 data4_[8];
 };
+#pragma pack ()
 //#pragma pack(pop)
 const struct GUID GUID_FC_HISDATA = { 0x2f872015, 0xb46e, 0x4d60, { 0x89, 0x60,
     0xb6, 0xb6, 0x6c, 0x18, 0x5a, 0xff } };
 
 //通用结构
+#pragma pack (1)
 struct UINT24 {
   uint16 low_;
   unsigned char high_;
@@ -43,6 +46,7 @@ struct UINT24 {
     return Get();
   }
 };
+#pragma pack ()
 
 //市场定义
 
@@ -75,6 +79,7 @@ struct UINT24 {
 #define  MKT_TE   0x4554 //'ET'  // 台湾柜买中心
 
 //动态行情
+#pragma pack (2)
 struct STK_DYNA {
   uint16 stk_id_;			//股票ID
   int32 time_;			//成交时间
@@ -94,6 +99,7 @@ struct STK_DYNA {
   uint32 settle_price_;  //结算价(期货期指现货特有)
 };
 
+#pragma pack ()
 //上海 level2
 //扩展买卖盘
 #define SHL2_MMP_SIZE 5
@@ -115,20 +121,24 @@ struct SH_L2_MMPEX {
 //价格后面总是跟着一个总单数
 
 //扩展买卖盘数据
+#pragma pack (1)
 struct HIS_L2_MMPEX {
   uint32 time_;  //时间
   SH_L2_MMPEX data_;  //数据
 };
-
+#pragma pack ()
 //逐笔成交明细
+#pragma pack (1)
 struct SH_L2_REPORT {
   uint16 stk_id_;
   int32 time_;    //成交时间
   uint32 price_;   //成交价格
   uint32 volume_;   //成交量
 };
+#pragma pack ()
 
 //委托单统计，用于深圳Level2
+#pragma pack (1)
 struct SZ_L2_ORDER_STAT {
   uint16 stk_id_;    //股票ID
   MWORD buy_order_vol_[4];  //买入单量，小、中、大、特大
@@ -141,25 +151,30 @@ struct SZ_L2_ORDER_STAT {
                    unsigned char price_digit);  //新增委托单时调用，nPriceDigit引用 STK_STATIC::m_nPriceDigit,nDir>0表示买单，<0表示卖单
   void AddNewWithdarw(int dir, uint32 vol);  //新增成功撤单时调用，nDir=0表示不明方向，1表示买入撤单，-1表示卖出撤单
 };
-
+#pragma pack ()
 // 买卖队列数据
+#pragma pack (1)
 struct HIS_L2_ORDER_STAT {
   unsigned int time_;   // 时间
   SZ_L2_ORDER_STAT data_;   // 数据
 };
-
+#pragma pack ()
 // 动态净值估值
+#pragma pack (1)
 struct HIS_IOPV {
   unsigned int time_;   // 时间
   float value_;   // 数据
 };
-
+#pragma pack ()
 // 债券到期收益率
+#pragma pack (1) 
 struct HIS_Matu_Yld {
   unsigned int time_;   // 时间
   float value_;   // 数据
 };
+#pragma pack ()
 
+#pragma pack (1)
 struct HIS_FILE_HEAD {
   uint32 size_;   //文件头大小
   uint16 market_;   //市场
@@ -167,8 +182,9 @@ struct HIS_FILE_HEAD {
   uint16 stk_count_;   //证券数量
   uint32 reserved_;   //保留字段
 };
-
+#pragma pack ()
 //静态数据，码表
+#pragma pack (1)
 struct STK_STATIC {
   enum STK_TYPE {
     INDEX = 0,				  //指数
@@ -207,8 +223,9 @@ struct STK_STATIC {
 
   int GetPriceMul() const;		//价格乘数，由price_digit_决定
 };
-
+#pragma pack ()
 //扩展静态数据,作为静态数据的补充，不是每一个股票都必须的，可以选择性生成部分股票的数据，在发送STK_STATIC后发送,使用DCT_GENERAL发送
+#pragma pack (1)
 struct STK_STATICEx {
   enum STK_SUBTYPE {
     NILTYPE = 0,
@@ -292,8 +309,9 @@ struct STK_STATICEx {
     } trust_spec_;
   };
 };
-
+#pragma pack ()
 //历史数据类型
+#pragma pack (1)
 enum HIS_DATA_TYPE {
   _STATIC_DATA = 0,			//	静态数据
   _DYNA_DATA,						//	动态行情数据
@@ -305,7 +323,9 @@ enum HIS_DATA_TYPE {
   HIS_DATA_TYPE_COUNT,			//	历史数据类型总数
   HIS_DATA_TYPE_UNKNOWN			//	未知历史数据类型
 };
+#pragma pack ()
 
+#pragma pack (1)
 struct HIS_DATA_HEAD {
   uint16 head_size_;		//	包头大小
   uint16 item_size_;		//	数据单元大小
@@ -313,7 +333,7 @@ struct HIS_DATA_HEAD {
   uint32 package_flag_;  //	包特征
   uint32 package_size_;  //	包大小
 };
-
+#pragma pack ()
 //	历史数据压缩格式
 enum HISHD_COMPRESS_TYPE {
   CT_NONE = 0,					//	无压缩
@@ -322,7 +342,7 @@ enum HISHD_COMPRESS_TYPE {
   CT_MASKCOUNT,					//	压缩方式总数
   CT_MASK = 0xFF					//	压缩标志掩码
 };
-#pragma pack(pop)
+//#pragma pack(pop)
 extern const char* g_data_compress_type[CT_MASKCOUNT];
 
 extern const char* g_his_data_suffix[HIS_DATA_TYPE_COUNT];

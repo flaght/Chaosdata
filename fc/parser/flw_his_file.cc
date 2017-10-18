@@ -47,6 +47,8 @@ int FlwHisFile::OpenHisFile2Read(const std::string& file_path,
   std::string content;
   bool r = file::ReadFileToString(*file_path_, &content);
   raw_data_ = content.c_str();
+  
+                                     
   guid_ = (const GUID*) (raw_data_);
   bool s = fc_data::IsEqualGUID(*guid_, GUID_FC_HISDATA);
   if (!s) {
@@ -63,6 +65,7 @@ int FlwHisFile::OpenHisFile2Read(const std::string& file_path,
   fc_data::FlwHisStk* last_flw = NULL;
   for (int i = 0; i < file_head_->stk_count_; i++) {
     fc_data::FlwHisStk* flw = new fc_data::FlwHisStk(out_base_dir_);
+    LOG_MSG2("=========>i:%d",i);
     if (!flw->LoadStk(his_data, file_head_->market_date_,
                       file_head_->market_)) {
       delete flw;
@@ -70,7 +73,7 @@ int FlwHisFile::OpenHisFile2Read(const std::string& file_path,
     }
     his_stk_list_.push_back(flw);
     //his_stk_map_[flw->static_->symbol_] = flw;
-    last_flw = flw;
+    //last_flw = flw;
     /*ULOG_DEBUG2("symbol_ %s stk list %d",
      flw->static_->symbol_,
      his_stk_list_.size());*/

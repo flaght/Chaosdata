@@ -41,7 +41,7 @@ FlwHisStk::FlwHisStk(std::string& dir)
       market_date_(0),
       out_dir_(dir) {
 
-  market_mtk_ = {0};
+  memset(market_mtk_,'\0',32);
   last_pos_index_.set_start_pos(0);
   last_pos_index_.set_time_index(0);
   last_pos_index_.set_end_pos(0);
@@ -342,6 +342,10 @@ void FlwHisStk::WriteDynaData(HIS_DATA_TYPE data_type) {
     dynam_markert.add_buy_vol(dyna_data->buy_vol_[4]);
     dynam_markert.add_sell_price(dyna_data->sell_price_[4]);
     dynam_markert.add_sell_vol(dyna_data->sell_vol_[4]);
+    
+    dynam_markert.set_open_interest(dyna_data->open_interest_);
+    dynam_markert.set_settle_price(dyna_data->settle_price_);
+      
     std::string in_data = "";
     bool r = dynam_markert.SerializeToString(&in_data);
 
