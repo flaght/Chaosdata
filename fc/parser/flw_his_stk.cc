@@ -611,8 +611,13 @@ int16 FlwHisStk::WriteGoogleFile(const int64 unix_time,
                                  const char* his_data_type,
                                  const char* his_data_suffix,/*HIS_DATA_TYPE data_type,*/
                                  const std::string& content) {
-  time_t u_time = unix_time;
-  struct tm *local_time = localtime(&u_time);
+  //time_t u_time = unix_time;
+  //struct tm *local_time = localtime(&u_time);
+
+  /*
+   * market_date_ / 10000,
+              (market_date_ / 100) % 100, market_date_ % 100
+   * */
   int16 packet_length = content.length() + sizeof(int16);
   packet::DataOutPacket out(true, packet_length);
   out.Write16(packet_length);
@@ -620,18 +625,18 @@ int16 FlwHisStk::WriteGoogleFile(const int64 unix_time,
   std::string dir = out_dir_ + "/" + std::string(s_stk_type_en[static_->ctype_])
       + "/" + std::string(SecType(market_mtk_)) + "/" + std::string(static_->symbol_)
       + "/" + std::string(his_data_type) + "/"
-      + base::BasicUtil::StringUtil::Int64ToString(local_time->tm_year + 1900)
+      + base::BasicUtil::StringUtil::Int64ToString(market_date_ / 10000)
       + "/"
-      + base::BasicUtil::StringUtil::Int64ToString(local_time->tm_mon + 1);
+      + base::BasicUtil::StringUtil::Int64ToString((market_date_ / 100) % 100);
 //+ "/" + base::BasicUtil::StringUtil::Int64ToString(day);
   file::FilePath current_dir_path(dir);
   if (!file::DirectoryExists(current_dir_path))
     file::CreateDirectory(current_dir_path);
   std::string file_name = std::string(SecType(market_mtk_)) + "_"
       + std::string(static_->symbol_) + "_"
-      + base::BasicUtil::StringUtil::Int64ToString(local_time->tm_year + 1900)
-      + base::BasicUtil::StringUtil::Int64ToString(local_time->tm_mon + 1)
-      + base::BasicUtil::StringUtil::Int64ToString(local_time->tm_mday);
+      + base::BasicUtil::StringUtil::Int64ToString(market_date_ / 10000)
+      + base::BasicUtil::StringUtil::Int64ToString((market_date_ / 100) % 100)
+      + base::BasicUtil::StringUtil::Int64ToString(market_date_ % 100);
   std::string temp_path = current_dir_path.value() + "/" + file_name
       + std::string(his_data_suffix) + ".chspb";
 
