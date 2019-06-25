@@ -30,6 +30,7 @@ int FlwHisFile::ProcessHisSTK() {
   while (his_stk_list_.size() > 0) {
     fc_data::FlwHisStk* flw_stk = his_stk_list_.front();
     his_stk_list_.pop_front();
+    //LOG_MSG2("size %d", his_stk_list_.size());
     //printf("symbol %s symbol type %s price_digit %d\n",flw_stk->static_->symbol_,
     //  s_stk_type[flw_stk->static_->ctype_],flw_stk->static_->price_digit_);
     flw_stk->ProcessHisTypeList();
@@ -65,7 +66,7 @@ int FlwHisFile::OpenHisFile2Read(const std::string& file_path,
   fc_data::FlwHisStk* last_flw = NULL;
   for (int i = 0; i < file_head_->stk_count_; i++) {
     fc_data::FlwHisStk* flw = new fc_data::FlwHisStk(out_base_dir_);
-    LOG_MSG2("=========>i:%d",i);
+   // LOG_MSG2("=========>i:%d",i);
     if (!flw->LoadStk(his_data, file_head_->market_date_,
                       file_head_->market_)) {
       delete flw;

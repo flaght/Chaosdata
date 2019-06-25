@@ -145,6 +145,8 @@ char* FlwHisStk::SecType(const char* type) {
     return "DCE";
   else if (std::string(type) == "ZC")
     return "CZCE";
+  else if (std::string(type) == "SF")
+    return "SFFE";
   else
     return "unkown";
 }

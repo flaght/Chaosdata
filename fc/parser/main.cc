@@ -18,6 +18,12 @@ void usage() {
 }
 
 int main(int agrc, char* argv[]) {
+    /*int price_digit_ = 0;
+    int mul = std::min(6, (int) price_digit_);
+    int n = 1;
+    for (int i = 0; i < mul; i++)
+        n *= 10;
+     LOG_MSG2("%d", n);*/
   me = argv[0];
   LOG_MSG2("%s", me);
   if (agrc < 3) {
@@ -32,7 +38,8 @@ int main(int agrc, char* argv[]) {
     LOG_MSG2("%s", dir.c_str());
     file::FilePath dir_path(dir);
     std::list<file::FilePath> file_list;
-    file::GetDirectoryFile(dir_path, file_list);
+    bool r = file::GetDirectoryFile(dir_path, file_list);
+    LOG_MSG2("r %d dir %s, count %d",r, dir_path.value().c_str(),file_list.size());
     while (file_list.size() > 0) {
       file::FilePath file = file_list.front();
       file_list.pop_front();
@@ -49,6 +56,8 @@ int main(int agrc, char* argv[]) {
   } else {
     usage();
   }
+
+
   /*std::string dir = "/root/ky/ChaosTransaction/ironman/test/ZC";
    std::string out_dir = "/home/tmt";
    file::FilePath dir_path(dir);
